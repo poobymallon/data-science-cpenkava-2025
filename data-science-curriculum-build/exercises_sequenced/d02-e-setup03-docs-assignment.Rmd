@@ -35,6 +35,7 @@ associated with `"dplyr"`. What vignettes are available?
 
 ```{r q1-task, eval=FALSE}
 ## TODO: Re-write the code above following the tidyverse style guide
+vignette("dplyr", package = "dplyr")
 ```
 
 Once we know *what* vignettes are available, we can use the same
@@ -52,7 +53,7 @@ select only those rows of the `iris` dataset where
 iris %>%
   as_tibble() %>%
   filter(
-    # TODO: Filter on Species "setosa"
+    Species == "setosa"
   )
 ```
 
@@ -74,7 +75,10 @@ question: How could we `filter` the `iris` dataset to return only those
 rows with `Sepal.Length` between `5.1` and `6.4`?
 
 ```{r q3-task}
-## TODO: Consult the docs; Write your code here
+help("filter")
+iris %>%
+  as_tibble() %>%
+  filter(between(Sepal.Length, 5.1, 6.4))
 ```
 
 On other occasions we'll know a function, but would like to know about
@@ -85,6 +89,13 @@ vignettes on the package to learn more.
 ### **q5** Look up the documentation on `cut_number`; what package does it come
 
 from? What about `parse_number()`? What about `row_number()`?
+
+```{r}
+# ?cut_number 
+# ?parse_number
+# ?row_number
+
+```
 
 <!-- include-exit-ticket -->
 
