@@ -1,13 +1,6 @@
----
-title: "Setup: Documentation"
-date: 2020-05-05
-output: github_document
-time: 15
-reading: 3
-editor_options: 
-  markdown: 
-    wrap: 72
----
+Setup: Documentation
+================
+2020-05-05
 
 # Setup: Documentation
 
@@ -20,9 +13,20 @@ consult documentation. This exercise will get you started.
 *Reading*: [Getting help with R](https://www.r-project.org/help.html)
 (Vignettes and Code Demonstrations)
 
-```{r setup}
+``` r
 library(tidyverse)
 ```
+
+    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+    ## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+    ## ✔ purrr     1.0.2     
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ✖ dplyr::filter() masks stats::filter()
+    ## ✖ dplyr::lag()    masks stats::lag()
+    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 The `vignette()` function allows us to look up
 [vignettes](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/vignette.html);
@@ -33,7 +37,7 @@ developers.
 
 associated with `"dplyr"`. What vignettes are available?
 
-```{r q1-task, eval=FALSE}
+``` r
 ## TODO: Re-write the code above following the tidyverse style guide
 ```
 
@@ -48,7 +52,7 @@ select only those rows of the `iris` dataset where
 
 *Note*: This should open up your browser.
 
-```{r q2-task}
+``` r
 iris %>%
   as_tibble() %>%
   filter(
@@ -56,7 +60,22 @@ iris %>%
   )
 ```
 
-Vignettes are useful when we only know *generally* what we're looking
+    ## # A tibble: 150 × 5
+    ##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+    ##           <dbl>       <dbl>        <dbl>       <dbl> <fct>  
+    ##  1          5.1         3.5          1.4         0.2 setosa 
+    ##  2          4.9         3            1.4         0.2 setosa 
+    ##  3          4.7         3.2          1.3         0.2 setosa 
+    ##  4          4.6         3.1          1.5         0.2 setosa 
+    ##  5          5           3.6          1.4         0.2 setosa 
+    ##  6          5.4         3.9          1.7         0.4 setosa 
+    ##  7          4.6         3.4          1.4         0.3 setosa 
+    ##  8          5           3.4          1.5         0.2 setosa 
+    ##  9          4.4         2.9          1.4         0.2 setosa 
+    ## 10          4.9         3.1          1.5         0.1 setosa 
+    ## # ℹ 140 more rows
+
+Vignettes are useful when we only know *generally* what we’re looking
 for. Once we know the verbs (functions) we want to use, we need more
 specific help.
 
@@ -64,21 +83,21 @@ specific help.
 
 specific function?
 
-Sometimes we'll be working with a function, but we won't *quite* know
+Sometimes we’ll be working with a function, but we won’t *quite* know
 how to get it to do what we need. In this case, consulting the
-function's documentation can be *extremely* helpful.
+function’s documentation can be *extremely* helpful.
 
 ### **q4** Use your knowledge of documentation lookup to answer the following
 
 question: How could we `filter` the `iris` dataset to return only those
 rows with `Sepal.Length` between `5.1` and `6.4`?
 
-```{r q3-task}
+``` r
 ## TODO: Consult the docs; Write your code here
 ```
 
-On other occasions we'll know a function, but would like to know about
-other, related functions. In this case, it's useful to be able to trace
+On other occasions we’ll know a function, but would like to know about
+other, related functions. In this case, it’s useful to be able to trace
 the `function` back to its parent `package`. Then we can read the
 vignettes on the package to learn more.
 
