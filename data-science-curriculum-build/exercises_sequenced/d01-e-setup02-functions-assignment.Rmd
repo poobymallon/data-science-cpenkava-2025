@@ -22,20 +22,32 @@ function's use.
 ### __q1__ How do you find help on a function? Get help on the built-in `rnorm` function.
 
 ```{r rnorm-help, eval=FALSE}
-## Your code here
+help("rnorm")
 ```
 
 ### __q2__ How do you show the source code for a function?
 
 ```{r rnorm-source}
-## Your code here
+rnorm
 ```
 
 ### __q3__ Using either the documentation or the source, determine the arguments for `rnorm`.
+Arguments:
+n: the number of observations
+mean: vector of means
+sd: vector of standard deviations
 
 
 ### __q4__ Scroll to the bottom of the help for the `library()` function. How do you
 list all available packages?
+```{r}
+help("library")
+```
+You can list all available packages by calling it with no package or help argument, like so:
+```{r}
+library()
+```
+
 
 
 The __examples__ in the help documentation are often *extremely* helpful for
