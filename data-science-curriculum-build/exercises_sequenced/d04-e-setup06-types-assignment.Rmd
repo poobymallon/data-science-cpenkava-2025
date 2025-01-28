@@ -24,9 +24,10 @@ library(tidyverse)
 ```
 
 ## Objects vs Strings
+
 <!-- -------------------------------------------------- -->
 
-### __q1__ Describe what is wrong with the code below.
+### **q1** Describe what is wrong with the code below.
 
 ```{r q1-task, eval=FALSE}
 ## TASK: Describe what went wrong here
@@ -34,28 +35,30 @@ library(tidyverse)
 airport <- "BOS"
 
 ## Check our airport value
-airport == ATL
+airport == "ATL"
 ```
 
 **Observations**:
 
-- Write your explanation here
+-   it was trying to compare a string "BOS" to an object ATL, which are incompatible for comparison
 
 ## Casting
+
 <!-- -------------------------------------------------- -->
 
 Sometimes our data will not be in the form we want; in this case we may need to *cast* the data to another format.
 
-- `as.integer(x)` converts to integer
-- `as.numeric(x)` converts to real (floating point)
-- `as.character(x)` converts to character (string)
-- `as.logical(x)` converts to logical (boolean)
+-   `as.integer(x)` converts to integer
+-   `as.numeric(x)` converts to real (floating point)
+-   `as.character(x)` converts to character (string)
+-   `as.logical(x)` converts to logical (boolean)
 
-### __q2__ Cast the following vector `v_string` to integers.
+### **q2** Cast the following vector `v_string` to integers.
 
 ```{r q2-task}
 v_string <- c("00", "45", "90")
-v_integer <- NA_real_
+v_integer <- as.integer(v_string)
+v_integer
 ```
 
 Use the following test to check your work.
@@ -72,7 +75,9 @@ print("Great job!")
 ```
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-setup06-types-assignment.Rmd).
