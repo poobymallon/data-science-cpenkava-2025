@@ -1,20 +1,13 @@
----
-title: "Setup: RStudio Shortcuts"
-author: Zachary del Rosario
-date: 2020-05-07
-output: github_document
-time: 10
-reading: 5
-editor_options: 
-  markdown: 
-    wrap: 72
----
+Setup: RStudio Shortcuts
+================
+Zachary del Rosario
+2020-05-07
 
 # Setup: RStudio Shortcuts
 
 *Purpose*: Your ability to get stuff done is highly dependent on your
 fluency with your tools. One aspect of fluency is knowing and *using*
-keyboard shortcuts. In this exercise, we'll go over some of the most
+keyboard shortcuts. In this exercise, we’ll go over some of the most
 important ones.
 
 *Reading*: [Keyboard
@@ -25,55 +18,50 @@ Rather than *memorizing* this information, I recommend you download a
 [cheatsheet](https://rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf),
 and either print it out or save it in a convenient place on your
 computer. Get used to referencing your cheatsheets while doing data
-science---practice makes perfect!
-
-```{r setup, include=FALSE}
-# knitr options
-knitr::opts_chunk$set(echo = TRUE)
-```
+science—practice makes perfect!
 
 ### **q1** What do the following keyboard shortcuts do?
 
--   Within the script editor or a chunk
+- Within the script editor or a chunk
 
-    -   `Alt` + `-`
+  - `Alt` + `-`
 
-        -   insert "\<-"
+    - insert “\<-”
 
-    -   `Shift` + `Cmd/Ctrl` + `M`
+  - `Shift` + `Cmd/Ctrl` + `M`
 
-        -   insert "%\>%"
+    - insert “%\>%”
 
-    -   `Cmd/Ctrl` + `Enter`
+  - `Cmd/Ctrl` + `Enter`
 
-        -   run current line/section
+    - run current line/section
 
-    -   `F1` (Note: on a Mac you need to press `fn` + `F1`)
+  - `F1` (Note: on a Mac you need to press `fn` + `F1`)
 
-        -   show help for current function
+    - show help for current function
 
-    -   `Cmd/Ctrl` + `Shift` + `C`
+  - `Cmd/Ctrl` + `Shift` + `C`
 
-        -   comment/uncomment lines
+    - comment/uncomment lines
 
--   Within R Markdown
+- Within R Markdown
 
-    -   `Cmd/Ctrl` + `Alt` + `I`
-        -   insert code chunk
+  - `Cmd/Ctrl` + `Alt` + `I`
+    - insert code chunk
 
--   Within a chunk
+- Within a chunk
 
-    -   `Shift` + `Cmd/Ctrl` + `Enter`
+  - `Shift` + `Cmd/Ctrl` + `Enter`
 
-        -   source with echo
+    - source with echo
 
-    -   `Ctrl` + `I` (`Cmd` + `I`)
+  - `Ctrl` + `I` (`Cmd` + `I`)
 
-        -   reindent lines
+    - reindent lines
 
 Try this below!
 
-```{r}
+``` r
 ## Re-indent these lines
 c(
   "foo",
@@ -83,23 +71,25 @@ c(
 )
 ```
 
+    ## [1] "foo" "bar" "goo" "gah"
+
 ### **q2** For a chunk, what header option do you use to
 
--   Run the code, don't display it, but show its results?
+- Run the code, don’t display it, but show its results?
 
-    -   echo = FALSE
+  - echo = FALSE
 
--   Run the code, but don't display it or its results?
+- Run the code, but don’t display it or its results?
 
-    -   include = FALSE
+  - include = FALSE
 
 ### **q3** How do stop the code in a chunk from running once it has started?
 
 ESCAPE
 
-### **q4** How do you show the "Document Outline" in RStudio?
+### **q4** How do you show the “Document Outline” in RStudio?
 
-*Hint*: Try googling "rstudio document outline"
+*Hint*: Try googling “rstudio document outline”
 
 outline button in top right corner of this window.
 
