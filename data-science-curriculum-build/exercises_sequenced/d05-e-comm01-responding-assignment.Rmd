@@ -14,13 +14,14 @@ reading: 10
 
 *Reading*: [GoStrengths: What is Active and Constructive Responding?](https://gostrengths.com/what-is-active-and-constructive-responding/)
 
-*Reading Time*: ~ 10 minutes
+*Reading Time*: \~ 10 minutes
 
 ```{r setup}
 library(tidyverse)
 ```
 
 ## Review: Active and Constructive Responding (ACR)
+
 <!-- -------------------------------------------------- -->
 
 The reading introduces the idea of *active and constructive responding* (ACR) to *good news*. The following table summarizes the four primary ways of responding to someone when presented with good news:
@@ -34,27 +35,25 @@ We'll call this the *active-passive-constructive-destructive* (APCD) framework.
 
 For example, if your friend tells you "Hey, I just got an A on my exam!", you could respond in a number of different ways:
 
-- "That's terrific! I remember you were studying really hard. What do you want to do to celebrate?" (*Active and Constructive*)
-  - This is *active* in the sense that it responds to and builds upon the substance of your friend's statement.
-  - This is *constructive* in that it conveys positive emotion.
-  - (This is the best way you can respond to good news [1]!)
-
-- "Oh that's cool, I guess." (*Passive and Constructive*)
-  - This is *constructive* in that it conveys positive emotion.
-  - However this is *passive* in that it does not actively engage with your friend's statement.
-
-- "But the professor was grading on a curve! Gah, that means I probably didn't get an A." (*Active and Destructive*)
-  - This is *active* in the sense that it responds to and builds upon the substance of your friend's statement.
-  - However this is *destructive* in that it conveys a negative reaction to your friend's statement.
-
-- "Dude whatever. I got an internship!" *Passive and Destructive*:
-  - However this is *passive* in that it does not actively engage with your friend's statement.
-  - This is also *destructive* in that it implicitly conveys a negative reaction by ignoring the substance of your friend's statement.
-  - (This is the worst way you can respond to good news!)
+-   "That's terrific! I remember you were studying really hard. What do you want to do to celebrate?" (*Active and Constructive*)
+    -   This is *active* in the sense that it responds to and builds upon the substance of your friend's statement.
+    -   This is *constructive* in that it conveys positive emotion.
+    -   (This is the best way you can respond to good news [1]!)
+-   "Oh that's cool, I guess." (*Passive and Constructive*)
+    -   This is *constructive* in that it conveys positive emotion.
+    -   However this is *passive* in that it does not actively engage with your friend's statement.
+-   "But the professor was grading on a curve! Gah, that means I probably didn't get an A." (*Active and Destructive*)
+    -   This is *active* in the sense that it responds to and builds upon the substance of your friend's statement.
+    -   However this is *destructive* in that it conveys a negative reaction to your friend's statement.
+-   "Dude whatever. I got an internship!" *Passive and Destructive*:
+    -   However this is *passive* in that it does not actively engage with your friend's statement.
+    -   This is also *destructive* in that it implicitly conveys a negative reaction by ignoring the substance of your friend's statement.
+    -   (This is the worst way you can respond to good news!)
 
 Active and constructive responding (ACR) has been shown to be associated with more positive interpersonal relationships [1]. If you want want to have better platonic or romantic relationships, you sould practice ACR!
 
 ## Having Productive Discussions
+
 <!-- -------------------------------------------------- -->
 
 What does ACR have to do with data science? Imagine you're in a meeting with some data science colleagues, and the presenter shows the following graph.
@@ -83,7 +82,7 @@ Let's use the active-passive-constructive-destructive (APCD) response framework 
 
 Here the bolded response is *actively* engaging with your colleague's question, but is doing so in a very *destructive* way. It's likely your colleague feels hurt, and is less likely now to speak up in meetings. That's a bad thing!
 
-### __q1__ Identify the nature of the bolded line below, rating it as either **active vs passive** and **constructive vs destructive**.
+### **q1** Identify the nature of the bolded line below, rating it as either **active vs passive** and **constructive vs destructive**.
 
 > *Presenter*: "Clearly, we can see a positive correlation between price and carat."
 >
@@ -93,11 +92,13 @@ Here the bolded response is *actively* engaging with your colleague's question, 
 
 **Observations**:
 
-- Is the bolded response **active** or **passive**? Why?
-- Is the bolded response **constructive** or **destructive**? Why?
-- How does this statement make you *feel*, relative to the bolded statement before the q1 prompt?
+-   Is the bolded response **active** or **passive**? Why?
+    -   active - engages with the question, responds to it well
+-   Is the bolded response **constructive** or **destructive**? Why?
+    -   constructive, is appreciative of the fact that they caught something and doesn't dismiss them
+-   How does this statement make you *feel*, relative to the bolded statement before the q1 prompt?
 
-### __q2__ Identify the nature of the bolded line below, rating it as either **active vs passive** and **constructive vs destructive**.
+### **q2** Identify the nature of the bolded line below, rating it as either **active vs passive** and **constructive vs destructive**.
 
 > *Presenter*: "Clearly, we can see a positive correlation between price and carat."
 >
@@ -107,13 +108,17 @@ Here the bolded response is *actively* engaging with your colleague's question, 
 
 **Observations**:
 
-- Is the bolded response **active** or **passive**? Why?
-- Is the bolded response **constructive** or **destructive**? Why?
-- How does this statement make you *feel*, relative to the bolded statement before the q1 prompt?
+-   Is the bolded response **active** or **passive**? Why?
+    -   active - it responds to it and tells them that they're unlabeled
+-   Is the bolded response **constructive** or **destructive**? Why?
+    -   but... it is destructive in that it intentionally dismisses their point and belittles them
+-   How does this statement make you *feel*, relative to the bolded statement before the q1 prompt?
+    -   its very dismissive, I don't like the way it makes me feel
 
 **Intermediate Conclusion**: We can quite naturally think of discussion responses in the APCD framework. Therefore, we should try to give active and constructive responses in data discussions!
 
 ## Active and Constructive Questions
+
 <!-- ------------------------- -->
 
 With a bit of imagination, we can apply the APCD framework to *questions* as well. Let's keep looking at the same graph.
@@ -164,7 +169,7 @@ In this second version the colleague is making a value-judgment about **the grap
 
 Let's practice once more!
 
-### __q3__ Identify the nature of the bolded line below, rating it as either **active vs passive** and **constructive vs destructive**.
+### **q3** Identify the nature of the bolded line below, rating it as either **active vs passive** and **constructive vs destructive**.
 
 > *Presenter*: "Clearly, we can see a positive correlation between price and carat."
 >
@@ -174,16 +179,21 @@ Let's practice once more!
 
 **Observations**:
 
-- Is the bolded response **active** or **passive**? Why?
-- Is the bolded response **constructive** or **destructive**? Why?
+-   Is the bolded response **active** or **passive**? Why?
+    -   passive - no response to the graph at hand
+-   Is the bolded response **constructive** or **destructive**? Why?
+    -   its somewhat neutral, but the fact that it sets up the discussion to go a way that the presenter didn't want makes it destructive
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-comm01-responding-assignment.Rmd).
 
 ## Refrences
+
 <!-- -------------------------------------------------- -->
 
-- [1] Gable, S. L., Reis, H. T., Impett, E. A., & Asher, E. R. (2004). What do you do when things go right? The intrapersonal and interpersonal benefits of sharing positive events. Journal of Personality and Social Psychology, 87, 228-245.
+-   [1] Gable, S. L., Reis, H. T., Impett, E. A., & Asher, E. R. (2004). What do you do when things go right? The intrapersonal and interpersonal benefits of sharing positive events. Journal of Personality and Social Psychology, 87, 228-245.
