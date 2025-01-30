@@ -40,13 +40,13 @@ This is fine when we know exactly what we're looking for. But `select()` is even
 
 The following helpers perform different kinds of column matching:
 
-- `starts_with(str)`: all columns that start with the prefix `str`
-- `ends_with(str)`: all columns that end with the suffix `str`
-- `contains(str)`: all columns that contain the substring `str`
-- `matches(expr)`: matches a regular expression `expr`*
-- `numrange()`: builds ranges of variables, like `"x0", "x1", "x2", ...`
+-   `starts_with(str)`: all columns that start with the prefix `str`
+-   `ends_with(str)`: all columns that end with the suffix `str`
+-   `contains(str)`: all columns that contain the substring `str`
+-   `matches(expr)`: matches a regular expression `expr`\*
+-   `numrange()`: builds ranges of variables, like `"x0", "x1", "x2", ...`
 
-*We'll learn more about regular expressions in `e-data06-strings`
+\*We'll learn more about regular expressions in `e-data06-strings`
 
 We use selection helpers inside `select()`, just like we'd provide a column name.
 
@@ -55,17 +55,18 @@ flights %>%
   select(starts_with("dep_"))
 ```
 
-
-### __q1__ Select matches
+### **q1** Select matches
 
 Select all the variables whose name ends with `_time`.
 
 ```{r q1-task}
-## df_q1 <- TODO: Your code goes here!
+df_q1 <-
+  flights %>% 
+  select(ends_with("_time"))
 df_q1
 ```
 
-The following is a *unit test* of your code; if you managed to solve task __q1__ correctly, the following code will execute without error.
+The following is a *unit test* of your code; if you managed to solve task **q1** correctly, the following code will execute without error.
 
 ```{r q1-tests}
 ## NOTE: No need to change this
@@ -84,15 +85,17 @@ flights %>%
   select(year, month, day, sched_dep_time, everything())
 ```
 
-
-### __q2__ Re-arrange the columns
+### **q2** Re-arrange the columns
 
 Re-arrange the columns to place `dest, origin, carrier` at the front, but retain all other columns.
 
 *Hint*: The function `everything()` will be useful!
 
 ```{r q2-task}
-df_q2 <- flights %>% select(everything()) # TODO: Modify to move columns to the front
+
+df_q2 <-
+flights %>% 
+  select(dest, origin, carrier, everything())
 df_q2
 ```
 
@@ -120,8 +123,8 @@ flights %>%
 *Important note*: Keep in mind that you have to use `==` to check equality. Using `=` inside a `filter()` will raise a helpful error message telling you to use `==` instead.
 
 ```{r}
-## NOTE: Uncomment and run to see the error
-# flights %>% 
+# # NOTE: Uncomment and run to see the error
+# flights %>%
 #   filter(month = 2)
 ```
 
@@ -129,26 +132,26 @@ flights %>%
 
 We can use a variety of conditions with `filter()`:
 
-- `==`: strict equality
-- `!=`: not equal
-- `>`, `>=`: greater than (or equal)
-- `<`, "<=`: less than (or equal)
-- Logical operations:
-  - `&`: and
-  - `|`: or
-  - `!`: not
-  - `xor`: and/or
-  
+-   `==`: strict equality
+-   `!=`: not equal
+-   `>`, `>=`: greater than (or equal)
+-   `<`, "\<=\`: less than (or equal)
+-   Logical operations:
+    -   `&`: and
+    -   `|`: or
+    -   `!`: not
+    -   `xor`: and/or
+
 ### Filter helpers
 
 There are also some useful helper functions we can use with `filter()`:
 
-- `is.na(x)`: Returns rows that contain `NaN` values
-  - Note that we can use `!is.na(x)` to return non-`NaN` values
-- `between(x, l, r)`: Returns rows with `l < x < r`
-- `near(x, y)`: Returns rows where `x` is "close" to `y`; we can optionally set the tolerance with `tol = ???`
+-   `is.na(x)`: Returns rows that contain `NaN` values
+    -   Note that we can use `!is.na(x)` to return non-`NaN` values
+-   `between(x, l, r)`: Returns rows with `l < x < r`
+-   `near(x, y)`: Returns rows where `x` is "close" to `y`; we can optionally set the tolerance with `tol = ???`
 
-### __q3__ Find near-arrivals
+### **q3** Find near-arrivals
 
 Find all the flights where the plane arrived within 10 minutes of its planned arrival time, but was not *exactly* on time.
 
@@ -158,10 +161,10 @@ Find all the flights where the plane arrived within 10 minutes of its planned ar
 ## TASK:
 df_q3 <- 
   flights %>% 
-  filter(
+  filter(arr_time != sched_arr_time & near(arr_time, sched_arr_time, tol = 10)
   )
 
-df_q3
+df_q3 %>% select(sched_arr_time, arr_time, everything())
 ```
 
 ```{r q3-tests}
@@ -193,36 +196,43 @@ print("Nice!")
 
 Note that in Tidyverse functions like `select()` and `filter()`, we can refer to column names directly---we don't have to quote them. However, the same doesn't hold if we're trying to compare string values. Make sure to quote a string if you're using it in a `filter()` comparison!
 
-### __q4__ Fix a bug
+### **q4** Fix a bug
 
 Fix the following code. What is the mistake here? What is the code trying to accomplish?
 
 ```{r q4-task}
-## flights %>% filter(dest = LAX) # Uncomment and run to see error
+flights %>% filter(dest == "LAX") # Uncomment and run to see error
 ```
 
 The next error is *far more insidious*....
 
-### __q5__ Fix a bug
+### **q5** Fix a bug
 
 This code doesn't quite what the user intended---they were trying to filter for only those flights where the desination was Boston airport. What went wrong?
 
 ```{r q5-task}
-BOS <- "LGA"
-flights %>% filter(dest == BOS)
+BOS <- "BOS"
+flights %>% filter(dest == BOS) %>% select(dest, everything())
 ```
 
 It will take practice to get used to when and when not to use quotations. Don't worry---we'll get lots of practice!
 
 The `filter()` tool is very simple, but already allows us to do a lot: This dataset is called `nycflights`; in what sense is it focused on New York city? Let's do a quick check to get an idea:
 
-### __q6__ Understand the data
+### **q6** Understand the data
 
 Perform **two** filters; first filter for flights where the *destination* was a New York airport (`JFK, LGA, or EWR`), then for flights where the *origin* was a New York airport (the same three). Answer the questions below.
 
 ```{r q6-task}
-## df_q6a <- dest is JFK, LGA, or EWR
+df_q6a <- 
+  flights %>%
+  filter(dest == "JFK" | dest == "LGA" | dest == "EWR")
 ## df_q6b <- origin is JFK, LGA, or EWR
+df_q6b <- 
+  flights %>%
+  filter(origin == "JFK" | origin == "LGA" | origin == "EWR")
+df_q6a %>% select(dest, everything())
+df_q6b %>% select(origin, everything())
 ```
 
 Use the following code to check your answer.
@@ -244,11 +254,9 @@ assertthat::assert_that(
 print("Nice!")
 ```
 
-**Observations**
-- Was this dataset assembled to study flights *out of* NYC, or *into* NYC? How do you know?
-  - (Your response here)
+**Observations** - Was this dataset assembled to study flights *out of* NYC, or *into* NYC? How do you know? - out of: there was only a single data point where an NYC flight was the destination
 
-*Aside*: Data are not just numbers. Data are *numbers with context*. Every dataset is put together for some reason. This reason will inform what observations (rows) and variables (columns) are *in the data*, and which are *not in the data*. Conversely, thinking carefully about what data a person or organization bothered to collect---and what they ignored---can tell you something about the *perspective* of those who collected the data. Thinking about these issues is partly what separates __data science__ from programming or machine learning.
+*Aside*: Data are not just numbers. Data are *numbers with context*. Every dataset is put together for some reason. This reason will inform what observations (rows) and variables (columns) are *in the data*, and which are *not in the data*. Conversely, thinking carefully about what data a person or organization bothered to collect---and what they ignored---can tell you something about the *perspective* of those who collected the data. Thinking about these issues is partly what separates **data science** from programming or machine learning.
 
 ## `arrange()` rows
 
@@ -283,13 +291,16 @@ flights %>%
   select(carrier, everything())
 ```
 
-### __q7__ Sort to find
+### **q7** Sort to find
 
 Sort the flights in *descending* order by their `air_time`. Bring `air_time, dest` to the front. What can you tell about the longest flights?
 
 ```{r q7-task}
 ## df_q7 <- TODO: Your code here!
-df_q7
+df_q7 <-
+  flights %>% 
+  arrange(desc(air_time))
+df_q7 %>% select(air_time, dest, everything())
 ```
 
 Use the following to check your work
@@ -317,9 +328,10 @@ assertthat::assert_that(
 print("Great job!")
 ```
 
-
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-data01-isolate-assignment.Rmd).
