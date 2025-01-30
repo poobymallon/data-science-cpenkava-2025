@@ -9,11 +9,15 @@ reading: 0
 
 # Stats: EDA Basics
 
-*Purpose*: *Exploratory Data Analysis* (EDA) is a __crucial__ skill for a practicing data scientist. Unfortunately, much like human-centered design EDA is hard to teach. This is because EDA is **not** a strict procedure, so much as it is a **mindset**. Also, much like human-centered design, EDA is an *iterative, nonlinear process*. There are two key principles to keep in mind when doing EDA:
+*Purpose*: *Exploratory Data Analysis* (EDA) is a **crucial** skill for a practicing data scientist. Unfortunately, much like human-centered design EDA is hard to teach. This is because EDA is **not** a strict procedure, so much as it is a **mindset**. Also, much like human-centered design, EDA is an *iterative, nonlinear process*. There are two key principles to keep in mind when doing EDA:
 
-- 1. Curiosity: Generate lots of ideas and hypotheses about your data.
-- 2. Skepticism: Remain unconvinced of those ideas, unless you can find credible
-  patterns to support them.
+-   
+
+    1.  Curiosity: Generate lots of ideas and hypotheses about your data.
+
+-   
+
+    2.  Skepticism: Remain unconvinced of those ideas, unless you can find credible patterns to support them.
 
 Since EDA is both *crucial* and *difficult*, we will practice doing EDA *a lot* in this course!
 
@@ -31,11 +35,14 @@ library(tidyverse)
 
 ```
 
-### __q0__ Simple checks
+### **q0** Simple checks
 
 Remember from `e02-data-basics` there were *simple checks* we're supposed to do? Do those simple checks on the diamonds dataset below.
 
 ```{r q0-task}
+?diamonds
+glimpse(diamonds)
+summary(diamonds)
 ```
 
 I'm going to walk you through a train of thought I had when studying the diamonds dataset.
@@ -44,11 +51,9 @@ There are four standard "C's" of [judging](https://en.wikipedia.org/wiki/Diamond
 
 ## Hypothesis 1
 
-**Here's a hypothesis**: `Ideal` is the "best" value of `cut` for a diamond.
-Since an `Ideal` cut seems more labor-intensive, I hypothesize that `Ideal` cut
-diamonds are less numerous than other cuts.
+**Here's a hypothesis**: `Ideal` is the "best" value of `cut` for a diamond. Since an `Ideal` cut seems more labor-intensive, I hypothesize that `Ideal` cut diamonds are less numerous than other cuts.
 
-### __q1__ Assess hypothesis 1
+### **q1** Assess hypothesis 1
 
 Run the chunk below, and study the plot. Was hypothesis 1 correct? Why or why not?
 
@@ -58,14 +63,13 @@ diamonds %>%
   geom_bar()
 ```
 
-**Observations**:
-- Write your observations here!
+**Observations**: - Ideal is the cut sub-category that contains the most data. This means that the hypothesis was incorrect.
 
 ## Hypothesis 2
 
 **Another hypothesis**: The `Ideal` cut diamonds should be the most pricey.
 
-### __q2.1__ Assess hypothesis 2
+### **q2.1** Assess hypothesis 2
 
 Study the following graph; does it support, contradict, or not relate to hypothesis 2?
 
@@ -77,12 +81,11 @@ diamonds %>%
   geom_point()
 ```
 
-**Observations**:
-- Write your observations here!
+**Observations**: - This graph is entirely helpful. There is enough data to make the graph incomprehensible.
 
 The following is a set of *boxplots*; the middle bar denotes the median, the boxes denote the *quartiles* (upper and lower "quarters" of the data), and the lines and dots denote large values and outliers.
 
-### __q2.2__ Assess hypothesis 2
+### **q2.2** Assess hypothesis 2
 
 Study the following graph; does it support or contradict hypothesis 2?
 
@@ -92,14 +95,13 @@ diamonds %>%
   geom_boxplot()
 ```
 
-**Observations**:
-- Write your observations here!
+**Observations**: - This graph would actually suggest the opposite of hypothesis 2 - the median price for ideal is lower than the median price.
 
 ## Unraveling Hypothesis 2
 
-Upon making the graph in __q2.2__, I was very surprised. So I did some reading on diamond cuts. It turns out that some gemcutters [sacrifice cut for carat](https://en.wikipedia.org/wiki/Diamond_(gemstone)#Cut). Could this effect explain the surprising pattern above?
+Upon making the graph in **q2.2**, I was very surprised. So I did some reading on diamond cuts. It turns out that some gemcutters [sacrifice cut for carat](https://en.wikipedia.org/wiki/Diamond_(gemstone)#Cut). Could this effect explain the surprising pattern above?
 
-### __q3__ Assess hypothesis 2
+### **q3** Assess hypothesis 2
 
 Study the following graph; does it support a "carat over cut" hypothesis? How might this relate to price?
 
@@ -111,14 +113,13 @@ diamonds %>%
   geom_boxplot()
 ```
 
-**Observations**:
-- Write your observations here!
+**Observations**: - fair diamonds have far and beyond larger carat values that other cuts, both in median and in outliers
 
 Note what we just did:
 
-- **We came up with hypotheses / questions about the data.**
-- **We used multiple graphs to assess these hypotheses / questions.**
-- **We used knowledge about the real world to make sense of the data.**
+-   **We came up with hypotheses / questions about the data.**
+-   **We used multiple graphs to assess these hypotheses / questions.**
+-   **We used knowledge about the real world to make sense of the data.**
 
 These are some of the core "moves" of exploratory data analysis.
 
@@ -127,7 +128,9 @@ These are some of the core "moves" of exploratory data analysis.
 [1] Don't mistake my focus on `diamonds` as an endorsement of the diamond industry.
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-stat00-eda-basics-assignment.Rmd).
