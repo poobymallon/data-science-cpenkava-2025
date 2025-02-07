@@ -44,14 +44,15 @@ mpg %>%
 
 This view of the data gives a better impression of a "bulk" of data near `displ == 2`.
 
-### __q1__ Make a histogram
+### **q1** Make a histogram
 
 Make a histogram of `cty` fuel economy.
 
 ```{r q1-task}
 ## TASK: Make a histogram of
 mpg %>% 
-# TODO: Finish this code
+  ggplot(aes(cty)) +
+  geom_histogram(bins = 20)
 ```
 
 ## The golden rule of histograms
@@ -100,7 +101,6 @@ mpg %>%
 
 Note how we can see all the lines, and nothing is stacked (since there are no bars).
 
-
 ## Density plots
 
 There's one more alternative to a frequency polygon, which is to plot an estimated density of the data. We'll talk about (probability) densities later in the class, but for now, the thing to know is that densities always integrate to `1`.
@@ -114,13 +114,13 @@ mpg %>%
 
 Density plots are better for showing where the data tends to be located. Frequency polygon plots also show where the data is located, but are better for showing the relative size of each group.
 
-### __q2__ Interpret a graph
+### **q2** Interpret a graph
 
 Using the graphs generated in the chunks `q1-vis1` and `q1-vis2` below, answer:
 
-- Which `class` has the most vehicles?
-- Which `class` has the broadest distribution of `cty` values?
-- Which graph---`vis1` or `vis2`---best helps you answer each question?
+-   Which `class` has the most vehicles?
+-   Which `class` has the broadest distribution of `cty` values?
+-   Which graph---`vis1` or `vis2`---best helps you answer each question?
 
 ```{r q2-vis1}
 ## NOTE: No need to modify
@@ -129,7 +129,6 @@ mpg %>%
   geom_freqpoly(bins = 10)
 ```
 
-
 ```{r q2-vis2}
 ## NOTE: No need to modify
 mpg %>%
@@ -137,22 +136,22 @@ mpg %>%
   geom_density()
 ```
 
-
 In the previous exercise, we learned how to *facet* a graph. Let's use that part of the grammar of graphics to clean up the graph above.
 
-### __q3__ Modify a plot
+### **q3** Modify a plot
 
 Modify `q1-vis2` to use a `facet_wrap()` on the `class`. "Free" the vertical axis with the `scales` keyword to allow for a different y scale in each facet.
 
 ```{r q3-task}
 mpg %>%
   ggplot(aes(cty, color = class)) +
-  geom_density()
+  geom_density() +
+  facet_wrap(vars(class), scales = "free")
 ```
 
-In the reading, we learned that the "most important thing" to keep in mind with `geom_histogram()` and `geom_freqpoly()` is to _explore different binwidths_. We'll explore this idea in the next question.
+In the reading, we learned that the "most important thing" to keep in mind with `geom_histogram()` and `geom_freqpoly()` is to *explore different binwidths*. We'll explore this idea in the next question.
 
-### __q4__ Analyze a histogram
+### **q4** Analyze a histogram
 
 Analyze the following graph; make sure to test different binwidths. What patterns do you see? Which patterns remain as you change the binwidth?
 
@@ -162,18 +161,19 @@ diamonds %>%
   filter(carat < 1.1) %>%
 
   ggplot(aes(carat)) +
-  geom_histogram(binwidth = 0.01, boundary = 0.005) +
+  geom_histogram(binwidth = .01, boundary = 0.005) +
   scale_x_continuous(
     breaks = seq(0, 1, by = 0.1)
 
   )
 ```
 
-**Observations**
-- Write your observations here!
+**Observations** - Write your observations here!
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-vis02-histograms-assignment.Rmd).
