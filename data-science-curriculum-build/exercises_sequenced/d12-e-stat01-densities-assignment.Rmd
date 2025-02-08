@@ -18,6 +18,7 @@ library(tidyverse)
 ```
 
 ## Densities
+
 <!-- -------------------------------------------------- -->
 
 Fundamentally, a density is a *function*: It takes an input, and returns an output. A density has a special interpretation though; it represents the *relative chance* of particular values occurring.
@@ -55,21 +56,22 @@ However, note that the normal density is quite a bit simpler than the density of
 
 `R` comes with a great many densities implemented:
 
-| Density | Code |
-|---|---|
-| Normal | `norm` |
-| Uniform | `unif` |
+| Density     | Code    |
+|-------------|---------|
+| Normal      | `norm`  |
+| Uniform     | `unif`  |
 | Chi-squared | `chisq` |
-| ... | ... |
+| ...         | ...     |
 
 In `R` we access a density by prefixing its name with the letter `d`.
 
-### __q1__ Modify the code below to evaluate a uniform density with `min = -1` and `max = +1`. Assign this value to `d`.
+### **q1** Modify the code below to evaluate a uniform density with `min = -1` and `max = +1`. Assign this value to `d`.
 
 ```{r q1-task}
 ## TODO: Complete this code
 df_q1 <-
-  tibble(x = seq(-5, +5, length.out = 100))
+  tibble(x = seq(-1, +1, length.out = 100)) %>% 
+  mutate(d = dunif(x, min = -1, max = 1))
 ```
 
 Use the following test to check your answer.
@@ -96,6 +98,7 @@ print("Nice!")
 ```
 
 ## Drawing Samples: A Model for Randomness
+
 <!-- -------------------------------------------------- -->
 
 What does it *practically* mean for a value to be more or less likely? A density gives information about a *random variable*. A random variable is a quantity that takes a random value every time we observe it. For instance: If we roll a six-sided die, it will (unpredictably) land on values `1` through `6`. In my research, I use random variables to model material properties: Every component that comes off an assembly line will have a different strength associated with it. In order to design for a desired rate of failure, I model this variability with a random variable. A single value from a random variable---a roll of the die or a single value of material strength---is called a *realization*.
@@ -140,11 +143,11 @@ ggplot() +
 
 To clarify some terms:
 
-- A **realization** is a single observed value of a random variable. A realization is a single value, e.g. `rnorm(n = 1)`.
-- A **sample** is a set of realizations. A sample is a set of values, e.g. `rnorm(n = 10)`.
-- A **density** is a function that describes the relative chance of all the values a random variable might take. A density is a function, e.g. `dnorm(x)`.
+-   A **realization** is a single observed value of a random variable. A realization is a single value, e.g. `rnorm(n = 1)`.
+-   A **sample** is a set of realizations. A sample is a set of values, e.g. `rnorm(n = 10)`.
+-   A **density** is a function that describes the relative chance of all the values a random variable might take. A density is a function, e.g. `dnorm(x)`.
 
-### __q2__ Plot densities for `Z` values in `df_q2`. Use aesthetics to plot a separate curve for different values of `n`. Comment on which values of `n` give a density closer to "normal".
+### **q2** Plot densities for `Z` values in `df_q2`. Use aesthetics to plot a separate curve for different values of `n`. Comment on which values of `n` give a density closer to "normal".
 
 *Hint*: You may need to use the `group` aesthetic, in addition to `color` or `fill`.
 
@@ -156,18 +159,25 @@ df_q2 <- map_dfr(
     tibble(Z = rnorm(n = nsamp), n = nsamp)
   }
 )
-## TODO: Create the figure
+glimpse(df_q2)
+
+## Plot a *density*
+df_q2 %>%   
+  ggplot(aes(Z, group = n, color = n)) +
+  geom_density()
 ```
 
-**Observations**
-- Write your observation about the densities and `n` here.
+**Observations** - Write your observation about the densities and `n` here.
+
+at n = 1000, it consistently is pretty much normal, at n = 10, it can sometimes get there, and at n = 5, it kind of just is a huge peak at one place and a couple small peaks at a couple of other values
 
 ## Not Everything is Normal
+
 <!-- -------------------------------------------------- -->
 
 A *very common misconception* is that drawing more samples will make *anything* look like a normal density. **This is not the case!** The following exercise will help us understand that the normal density is *just a model*, and *not* what we should expect all randomness to look like.
 
-### __q3__ Run the code below and inspect the resulting histogram. Increase `n_diamonds` below to increase the number of samples drawn: Do this a few times for an increasing number of samples. Answer the questions under *observations* below.
+### **q3** Run the code below and inspect the resulting histogram. Increase `n_diamonds` below to increase the number of samples drawn: Do this a few times for an increasing number of samples. Answer the questions under *observations* below.
 
 ```{r q3-task}
 n_diamonds <- 10
@@ -181,12 +191,15 @@ diamonds %>%
 
 **Observations**:
 
-- Does the histogram look like a normal for *any* value of `n_diamonds`?
-- The normal density can take any value between negative infinity and positive infinity. Does that make sense for diamond `carat` values? Why or why not?
+-   Does the histogram look like a normal for *any* value of `n_diamonds`?
+    -   no never. the population is not normal
+-   The normal density can take any value between negative infinity and positive infinity. Does that make sense for diamond `carat` values? Why or why not?
+    -   no. negative values dont exist, and there is a limit to the amount of mass a diamond can have.
 
 The normal density *is* a good model for some physical phenomena, such as the set of heights among a population. However, it is not always a good model. One reason the normal density "shows up" a lot is because it is involved in *estimation*, which we'll talk more about when we later discuss the central limit theorem.
 
 ## Random Seeds: Setting the State
+
 <!-- -------------------------------------------------- -->
 
 Remember that random variables are *random*. That means if we draw samples multiple times, we're bound to get different values. For example, run the following code chunk multiple times.
@@ -233,7 +246,9 @@ rnorm(5)
 The values are identical every time!
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-stat01-densities-assignment.Rmd).
