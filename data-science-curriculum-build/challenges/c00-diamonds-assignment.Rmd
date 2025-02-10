@@ -66,6 +66,8 @@ diamonds %>%
 **Observations**:
 
 -   A whole bunch of black dots on top of each is not a super effective way of displaying data
+    -   There are an extremely large amount of data points being displayed here - to the point where the little circle data points are overlapping each other to become one large blob, which still allows us to see the shape, but hurts seeing individual points within the blob
+        -   This means that, if looking in the blob, I am unable to tell if a certain carat-price combination (or anything very close) has 1 instance, 3 instances, or 100
 -   There is a general positive correlation between number of carats and price of diamond, but there is a great spread.
 -   Most of our data is between 0 and 3 carats and 0 and 18,000 dollars, but there are some outliers past 3 carats
 
@@ -81,7 +83,7 @@ diamonds %>%
 **Observations**:
 
 -   Colors are somewhat helpful in noticing larger trends - the better a cut, typically the more the diamond's price was.
--   The 3 furthest outliers in carat are all fair, which may imply something about cut a diamond ideal reducing the carat.
+-   The 3 furthest outliers in carat are all fair. This is an avenue to explore when regarding extremely large carat diamonds, but seeing as there are only three data points here, we cannot conclude much.
 -   There are still a lot of points all over the place, which makes it hard to see what's going on.
 
 # Communication
