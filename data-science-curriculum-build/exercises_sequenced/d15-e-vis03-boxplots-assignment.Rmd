@@ -99,6 +99,7 @@ Reorder `class` according to `hwy`. Pay attention to how this modifies the plot.
 ```{r q2-task}
 ## TASK: Edit this code to reorder `class` according to `hwy`
 mpg %>%
+  mutate(class = fct_reorder(class, hwy)) %>% 
   ggplot(aes(x = class, y = hwy)) +
   geom_boxplot()
 ```
@@ -121,6 +122,7 @@ Use a `cut_*` verb (of your choice) to create a categorical variable out of `car
 ```{r q1-task}
 diamonds %>%
   ## TODO: Use mutate to add the column `carat_cut`
+  mutate(carat_cut = cut_interval(carat, length = 0.5)) %>% 
   ggplot(aes(x = carat_cut, y = price)) +
   geom_boxplot()
 ```
@@ -149,7 +151,8 @@ The following plot has overlapping x-axis labels. Use a verb from the reading to
 ```{r q4-task}
 mpg %>%
   ggplot(aes(manufacturer, hwy)) +
-  geom_boxplot()
+  geom_boxplot() +
+  coord_flip()
 ```
 
 This is a simple---but important---trick to remember when visualizing data with many categories.
