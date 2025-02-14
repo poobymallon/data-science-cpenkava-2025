@@ -123,7 +123,16 @@ tribble(
 ```{r q1-task}
 df_q1 <-
   genes %>%
-## TODO: pivot and unite here!
+    unite(
+    col = "combo",
+    parent1, parent2,
+    sep = "",
+    remove = FALSE
+    ) %>% 
+  pivot_wider(
+    names_from = parent2, # Cell entries to turn into new column names
+    values_from = combo # Values to associate with the new column(s)
+  )
 
 df_q1
 ```
@@ -164,7 +173,20 @@ separate to tidy these data.
 ```{r q2-task}
 df_q2 <-
   alloys_mod %>%
-## TODO: pivot and separate here!
+  pivot_longer(
+    cols = c(E00, mu00, E45, mu45),
+    names_to = "varangle",
+    values_to = "val"
+  ) %>% 
+  separate(
+    varangle,
+    into = c("var", "angle"),
+    sep = "(?<=[A-Za-z])(?=[0-9])"
+  ) %>% 
+  pivot_wider(
+    names_from = var, # Cell entries to turn into new column names
+    values_from = val # Values to associate with the new column(s)
+  )
 
 df_q2
 ```
