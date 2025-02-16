@@ -39,6 +39,7 @@ vis_central <- function(df, var) {
 ```
 
 ## Statistics
+
 <!-- -------------------------------------------------- -->
 
 A *statistic* is a numerical summary of a sample. Statistics are useful because they provide a useful summary about our data. A histogram gives us a rich summary of a datset: for example the departure delay time in the NYC flight data.
@@ -53,13 +54,14 @@ flights %>%
 
 However, we might be interested in a few questions about these data:
 
-- What is a *typical* value for the departure delay? (Location)
-- How *variable* are departure delay times? (Spread)
-- How much does departure delay *co-vary* with distance? (Dependence)
+-   What is a *typical* value for the departure delay? (Location)
+-   How *variable* are departure delay times? (Spread)
+-   How much does departure delay *co-vary* with distance? (Dependence)
 
 We can give quantitative answers to all these questions using statistics!
 
 ## Handling NA's
+
 <!-- ------------------------- -->
 
 Before we can start computing (descriptive) statistics, we need to learn how to deal with data issues. For instance, in the NYC flights data, we have a number of `NA`s.
@@ -82,19 +84,20 @@ flights %>%
 
 Let's learn how to handle this:
 
-### __q1__ The following code returns `NA`. Look up the documentation for `mean` and use an additional argument to strip the `NA` values in the dataset before computing the mean. Make this modification to the code below and report the mean departure delay time.
+### **q1** The following code returns `NA`. Look up the documentation for `mean` and use an additional argument to strip the `NA` values in the dataset before computing the mean. Make this modification to the code below and report the mean departure delay time.
 
 ```{r q1-task}
 ## TASK: Edit to drop all NAs before computing the mean
 flights %>%
-  summarize(dep_delay = mean(dep_delay))
+  summarize(dep_delay = mean(na.omit(dep_delay)))
 ```
 
 **Observations**:
 
-- What is the mean departure delay time, among available values?
+-   What is the mean departure delay time, among available values? 12.64 minutes about.
 
 ## Central Tendency
+
 <!-- ------------------------- -->
 
 *Central tendency* is the idea of where data tend to be "located"---this concept is also called *location*. It is best thought of as the "center" of the data. The following graph illustrates central tendency.
@@ -150,7 +153,7 @@ gapminder %>%
 
 the mean and median `gdpPercap` disagree.[2]
 
-### __q2__ The following code computes the mean and median `dep_delay` for each carrier, and sorts based on mean. Duplicate the code, and sort by median instead. Report your observations on which carriers are in both lists, and which are different. Also comment on what negative `dep_delay` values mean.
+### **q2** The following code computes the mean and median `dep_delay` for each carrier, and sorts based on mean. Duplicate the code, and sort by median instead. Report your observations on which carriers are in both lists, and which are different. Also comment on what negative `dep_delay` values mean.
 
 *Hint*: Remember you can check the documentation of a built-in dataset with `?flights`!
 
@@ -162,7 +165,7 @@ flights %>%
     mean = mean(dep_delay, na.rm = TRUE),
     median = median(dep_delay, na.rm = TRUE)
   ) %>%
-  arrange(desc(mean)) %>%
+  arrange(desc(median)) %>%
   head(5)
 
 ## TASK: Duplicate the code above, but sort by `median` instead
@@ -170,11 +173,15 @@ flights %>%
 
 **Observations**:
 
-- Which carriers are at the top of both `mean` and `median` departure delay?
-- Which carriers differ in the two lists?
-- What do negative values of `dep_delay` mean?
+-   Which carriers are at the top of both `mean` and `median` departure delay?
+    -   FL, WN, & F9
+-   Which carriers differ in the two lists?
+    -   the other two
+-   What do negative values of `dep_delay` mean?
+    -   planes leave early, which can only happen if all the passengers board very punctually.
 
 ## Multi-modality
+
 <!-- ------------------------- -->
 
 It may not seem like it, but we're actually *making an assumption* when we use the mean (or median) as a typical value. Imagine we had the following data:
@@ -194,8 +201,8 @@ bind_rows(
 
 Here the mean and median are both close to zero, but *zero is an atypical number*! This is partly why we don't *only* compute descriptive statistics, but also do a deeper dive into our data. Here, we should probably refuse to give a single typical value; instead, it seems there might really be two populations showing up in the same dataset, so we can give two typical numbers, say `-2, +2`.
 
-
 ## Quantiles
+
 <!-- ------------------------- -->
 
 Before we can talk about spread, we need to talk about *quantiles*. A [quantile](https://en.wikipedia.org/wiki/Quantile) is a value that separates a user-specified fraction of data (or a distribution). For instance, the median is the $50%$ quantile; thus $\text{Median}[D] = Q_{0.5}[D]$. We can generalize this idea to talk about any quantile between $0%$ and $100%$.
@@ -239,7 +246,7 @@ $$IQR[D] = Q_{0.75}[D] - Q_{0.25}[D]$$,
 
 where $Q_{p}[D]$ is the $p$-th quantile of a sample $D$.
 
-### __q3__ Using the function `quantile`, compute the *interquartile range*; this is the difference between the $75%$ and $25%$ quantiles.
+### **q3** Using the function `quantile`, compute the *interquartile range*; this is the difference between the $75%$ and $25%$ quantiles.
 
 ```{r q3-task}
 ## NOTE: No need to change this!
@@ -247,7 +254,12 @@ set.seed(101)
 v_test_iqr <- rnorm(n = 10)
 
 ## TASK: Compute the interquartile range
-test_iqr <- NA_real_
+test_iqr_setup <-
+  v_test_iqr %>%
+  quantile(., probs = c(0.25, 0.75)) %>% 
+test_iqr <- 
+  test_iqr_setup %>% 
+  
 ```
 
 Use the following test to check your answer.
@@ -259,6 +271,7 @@ print("Great job!")
 ```
 
 ## Spread
+
 <!-- ------------------------- -->
 
 *Spread* is the concept of how tightly or widely data are *spread out*. There are two primary measures of spread: the *standard deviation*, and the *interquartile range*.
@@ -285,19 +298,32 @@ tibble(
 ) %>% glimpse
 ```
 
-### __q4__ Using the code from q2 as a starting point, compute the standard deviation (`sd()`) and interquartile range (`IQR()`), and rank the top five carriers, this time by sd and IQR. Report your observations on which carriers are in both lists, and which are different. Also note and comment on which carrier (among your top-ranked) has the largest difference between `sd` and `IQR`.
+### **q4** Using the code from q2 as a starting point, compute the standard deviation (`sd()`) and interquartile range (`IQR()`), and rank the top five carriers, this time by sd and IQR. Report your observations on which carriers are in both lists, and which are different. Also note and comment on which carrier (among your top-ranked) has the largest difference between `sd` and `IQR`.
 
 ```{r q4-task}
 ## TODO: Use code from q2 to compute the sd and IQR, rank as before
+flights %>%
+  group_by(carrier) %>%
+  summarize(
+    sd= sd(dep_delay, na.rm = TRUE),
+    iqr = IQR(dep_delay, na.rm = TRUE)
+  ) %>%
+  mutate(diff = abs(sd-iqr)) %>% 
+  arrange(desc(diff)) %>%
+  head(5)
 ```
 
 **Observations**:
 
-- Which carriers are at the top of both `sd` and `IQR` departure delay?
-- Which carriers differ in the two lists?
-- Which carrier has the biggest difference between its `sd` and `IQR`? What might this mean?
+-   Which carriers are at the top of both `sd` and `IQR` departure delay?
+    -   yv, f9, fl, EV
+-   Which carriers differ in the two lists?
+    -   the other one slot
+-   Which carrier has the biggest difference between its `sd` and `IQR`? What might this mean?
+    -   ha - one huge outlier prolly
 
 ## Dependence
+
 <!-- ------------------------- -->
 
 So far, we've talked about descriptive statistics to consider one variable at a time. To conclude, we'll talk about statistics to consider *dependence* between two variables in a dataset.
@@ -338,7 +364,7 @@ flights %>%
 
 In the case of a *perfect linear relationships* the Pearson correlation takes the value $+1$ (for a positive slope) or $-1$ for a negative slope.
 
-### __q5__ Compute the Pearson correlation between `x, y` below. Play with the `slope` and observe the change in the correlation.
+### **q5** Compute the Pearson correlation between `x, y` below. Play with the `slope` and observe the change in the correlation.
 
 ```{r ex-cor-line}
 slope <- 0.5 # Play with this value; observe the correlation
@@ -357,8 +383,8 @@ df_line %>%
 
 **Observations**:
 
-- For what values of `slope` is the correlation positive?
-- For what values of `slope` is the correlation negative?
+-   For what values of `slope` is the correlation positive?
+-   For what values of `slope` is the correlation negative?
 
 Note that this means *correlation is a measure of dependence*; it is **not** a measure of slope! It is better thought of as how *strong* the relationship between two variables is. A closer-to-zero correlation indicates a noisy relationship between variables, while a closer-to-one (in absolute value) indicates a more perfect, predictable relationship between the variables. For instance, the following code simulates data with different correlations, and facets the data based on the underlying correlation.
 
@@ -413,7 +439,7 @@ df_monotone %>%
 
 One more note about functional relationships: Neither Pearson nor Spearman can pick up on arbitrary dependencies.
 
-### __q6__ Run the code chunk below and look at the visualization: Make a prediction about what you think the correlation will be. Then compute the Pearson correlation between `x, y` below.
+### **q6** Run the code chunk below and look at the visualization: Make a prediction about what you think the correlation will be. Then compute the Pearson correlation between `x, y` below.
 
 ```{r ex-data-quad}
 ## NOTE: No need to change this!
@@ -426,12 +452,18 @@ df_quad <-
 df_quad %>%
   ggplot(aes(x, y)) +
   geom_point()
+
+df_quad %>%
+  summarize(rho = cor(x, y, method = "pearson"))
+
+df_quad %>%
+  summarize(rho = cor(x, y, method = "spearman"))
 ```
 
 **Observations**:
 
-- What do you predict the correlations to be?
-- What are the actual correlations?
+-   What do you predict the correlations to be?
+-   What are the actual correlations?
 
 One last point about correlation: The mean is to Pearson correlation as the median is to Spearman correlation. The median and Spearman's rho are robust to outliers.
 
@@ -462,12 +494,15 @@ df_cor_outliers %>%
 ```
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-stat03-descriptive-assignment.Rmd).
 
 ## Notes
+
 <!-- -------------------------------------------------- -->
 
 [1] So then why bother with the mean? It turns out the mean is a fundamental idea in statistics, as it's a key component of *a lot* of other statistical procedures. You'll end up using the mean in countless different ways, so it's worth recognizing its weakness to outliers.
