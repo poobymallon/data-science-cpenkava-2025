@@ -178,8 +178,11 @@ df_titanic %>%
 **Observations**:
 
 - In all passenger categories, more female passengers survived than male
-  passengers - this may imply something about the “women and children
-  first” mentality being employed.
+  passengers - if there are less female than male passengers overall,
+  this may imply something about the “women and children first”
+  mentality being employed.
+  - But without knowing the overall make up or using any proportion, it
+    is hard to tell much about the significance of these numbers
 - However, an extreme amount more of male crew members were saved - I
   predict that this absolute disproportionate-ness is due to the make up
   of the data itself, that there were just more male crew members to
