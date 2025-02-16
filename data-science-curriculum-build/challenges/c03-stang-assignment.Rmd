@@ -1,6 +1,6 @@
 ---
 title: "Aluminum Data"
-author: "Cooper Penkava"
+author: "Cooper A. Penkava"
 date: 2025-02-16
 output:
   github_document:
