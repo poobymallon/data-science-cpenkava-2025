@@ -1,7 +1,7 @@
 ---
 title: "Aluminum Data"
-author: "(Your name here)"
-date: 2020-
+author: "Cooper Penkava"
+date: 2025-02-16
 output:
   github_document:
     toc: true
@@ -14,17 +14,20 @@ prerequisites:
 In this challenge, you will load a real dataset, wrangle it into tidy form, and perform EDA to learn more about the data.
 
 <!-- include-rubric -->
+
 # Grading Rubric
+
 <!-- -------------------------------------------------- -->
 
 Unlike exercises, **challenges will be graded**. The following rubrics define how you will be graded, both on an individual and team basis.
 
 ## Individual
+
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----------|----------------|--------------|
-| Effort | Some task __q__'s left unattempted | All task __q__'s attempted |
+|------------------|-----------------------------|-------------------------|
+| Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
 | Assessed | Observations include claims not supported by the data, or reflect a level of certainty not warranted by the data | Observations are appropriately qualified by the quality & relevance of the data and (in)conclusiveness of the support |
@@ -32,10 +35,10 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 | Code Styled | Violations of the [style guide](https://style.tidyverse.org/) hinder readability | Code sufficiently close to the [style guide](https://style.tidyverse.org/) |
 
 ## Submission
+
 <!-- ------------------------- -->
 
 Make sure to commit both the challenge report (`report.md` file) and supporting files (`report_files/` folder) when you are done! Then submit a link to Canvas. **Your Challenge submission is not complete without all files uploaded to GitHub.**
-
 
 ```{r setup}
 library(tidyverse)
@@ -44,6 +47,7 @@ library(tidyverse)
 *Background*: In 1946, scientists at the Bureau of Standards tested a number of Aluminum plates to determine their [elasticity](https://en.wikipedia.org/wiki/Elastic_modulus) and [Poisson's ratio](https://en.wikipedia.org/wiki/Poisson%27s_ratio). These are key quantities used in the design of structural members, such as aircraft skin under [buckling loads](https://en.wikipedia.org/wiki/Buckling). These scientists tested plats of various thicknesses, and at different angles with respect to the [rolling](https://en.wikipedia.org/wiki/Rolling_(metalworking)) direction.
 
 # Loading and Wrangle
+
 <!-- -------------------------------------------------- -->
 
 The `readr` package in the Tidyverse contains functions to load data form many sources. The `read_csv()` function will help us load the data for this challenge.
@@ -60,14 +64,47 @@ df_stang
 
 Note that these data are not tidy! The data in this form are convenient for reporting in a table, but are not ideal for analysis.
 
-### __q1__ Tidy `df_stang` to produce `df_stang_long`. You should have column names `thick, alloy, angle, E, nu`. Make sure the `angle` variable is of correct type. Filter out any invalid values.
+### **q1** Tidy `df_stang` to produce `df_stang_long`. You should have column names `thick, alloy, angle, E, nu`. Make sure the `angle` variable is of correct type. Filter out any invalid values.
 
 *Hint*: You can reshape in one `pivot` using the `".value"` special value for `names_to`.
+
+df_stang_long \<-
+
+df_stang %\>%
+
+pivot_longer(
+
+names_to = c("var", "angle"),
+
+names_sep = "\_",
+
+values_to = "val",
+
+starts_with("E") \| starts_with("nu")
+
+) %\>%
+
+mutate(angle = as.integer(angle)) %\>%
+
+pivot_wider(
+
+names_from = var,
+
+values_from = val
+
+)
 
 ```{r q1-task}
 ## TASK: Tidy `df_stang`
 df_stang_long <-
-  df_stang
+  df_stang %>% 
+  pivot_longer(
+    names_to = c(".value", "angle"),
+    names_sep = "_",
+    values_to = "val",
+    starts_with("E") | starts_with("nu")
+  ) %>% 
+  mutate(angle = as.integer(angle))
 
 df_stang_long
 ```
@@ -84,7 +121,7 @@ assertthat::assert_that(
               )
             )
 ## Dimensions
-assertthat::assert_that(all(dim(df_stang_long) == c(26, 5)))
+assertthat::assert_that(all(dim(df_stang_long) == c(27, 5)))
 ## Type
 assertthat::assert_that(
               (df_stang_long %>% pull(angle) %>% typeof()) == "integer"
@@ -94,43 +131,54 @@ print("Very good!")
 ```
 
 # EDA
+
 <!-- -------------------------------------------------- -->
 
 ## Initial checks
+
 <!-- ------------------------- -->
 
-### __q2__ Perform a basic EDA on the aluminum data *without visualization*. Use your analysis to answer the questions under *observations* below. In addition, add your own *specific* question that you'd like to answer about the data---you'll answer it below in q3.
+### **q2** Perform a basic EDA on the aluminum data *without visualization*. Use your analysis to answer the questions under *observations* below. In addition, add your own *specific* question that you'd like to answer about the data---you'll answer it below in q3.
 
 ```{r q2-task}
 ##
+glimpse(df_stang)
+summary(df_stang)
 ```
 
 **Observations**:
 
-- Is there "one true value" for the material properties of Aluminum?
-  - (Your response here)
-- How many aluminum alloys are in this dataset? How do you know?
-  - (Your response here)
-- What angles were tested?
-  - (Your response here)
-- What thicknesses were tested?
-  - (Your response here)
-- (Write your own question here)
+-   Is there "one true value" for the material properties of Aluminum?
+    -   no - each different sample has a different value for each of the variables - there is variance, which can come from a multitude of sources all along the manufacturing process of these metal samples
+-   How many aluminum alloys are in this dataset? How do you know?
+    -   1 - summary lists the alloy column as length 9, but each of those is the same type, as seen when using the glimpse function
+-   What angles were tested?
+    -   0, 45, and 90, most likely in degrees
+-   What thicknesses were tested?
+    -   thicknesses including 0.022, 0.032, 0.064, and 0.081
+-   Does thickness impact the modulus of elasticity, E? Materials science says it shouldn't, but what does the data say?
+    -   let's make a visualization for this one.
 
 ## Visualize
+
 <!-- ------------------------- -->
 
-### __q3__ Create a visualization to investigate your question from q2 above. Can you find an answer to your question using the dataset? Would you need additional information to answer your question?
+### **q3** Create a visualization to investigate your question from q2 above. Can you find an answer to your question using the dataset? Would you need additional information to answer your question?
 
 ```{r q3-task}
-## TASK: Investigate your question from q1 here
+## TASK: Investigate your question from q2 here
+df_stang_long %>% 
+  ggplot(aes(thick, E)) +
+  geom_point()
 ```
 
 **Observations**:
 
-- (Address your question from q1 here)
+-   There is not a clear pattern here - I would say the data visualized in this way does not show a trend between sample thickness and modulus of elasticity, E. All the points are around 10,000.
+-   It is interesting to note the weird outlier with an E of 0 - this should be explored further
+    -   I also wonder why 0.081 thickness deviate a little more from the line than the other three groups - is this a coincidence or is it related to the outier, or is it something unrelated entirely?
 
-### __q4__ Consider the following statement:
+### **q4** Consider the following statement:
 
 > "A material's property (or material property) is an intensive property of some material, i.e. a physical property that does not depend on the amount of the material."[2]
 
@@ -147,14 +195,18 @@ df_stang_long %>%
 
 **Observations**:
 
-- Does this graph support or contradict the claim above?
-  - (Your response here)
-- Is this evidence *conclusive* one way or another?
-  - (Your response here)
+first of all, bruh how did i come up with the same question :( and then you went and made a better graph
+
+-   Does this graph support or contradict the claim above?
+    -   I would argue it tends to support it if we make the assumption that the outlier should be thrown out - the first three categories are all basically completely on top each other and the fourth is extremely close.
+    -   it would be nice to have a more zoomed in version of this graph after disregarding the outlier just to make sure there are no funny shapes
+-   Is this evidence *conclusive* one way or another?
+    -   absolutely not - there's only a couple data points here, and one of them is a major outlier and the thickest category is ever so slightly off. I would not trust my bridges, skyscrapers, heavy machinery, and aerospace craft on this evidence.
 
 # References
+
 <!-- -------------------------------------------------- -->
 
-[1] Stang, Greenspan, and Newman, "Poisson's ratio of some structural alloys for large strains" (1946) Journal of Research of the National Bureau of Standards, (pdf link)[https://nvlpubs.nist.gov/nistpubs/jres/37/jresv37n4p211_A1b.pdf]
+[1] Stang, Greenspan, and Newman, "Poisson's ratio of some structural alloys for large strains" (1946) Journal of Research of the National Bureau of Standards, (pdf link)[<https://nvlpubs.nist.gov/nistpubs/jres/37/jresv37n4p211_A1b.pdf>]
 
-[2] Wikipedia, *List of material properties*, accessed 2020-06-26, (link)[https://en.wikipedia.org/wiki/List_of_materials_properties]
+[2] Wikipedia, *List of material properties*, accessed 2020-06-26, (link)[<https://en.wikipedia.org/wiki/List_of_materials_properties>]
