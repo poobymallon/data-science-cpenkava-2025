@@ -64,7 +64,7 @@ Describe what is wrong with the result of `bind_cols` above and how it happened.
 
 *Hint*: John Lennon played guitar in The Beatles. John McCartney is not a real person... (as far as I know).
 
-- Write your answer here
+- the orders are wrong, so it seems that bind just assumes the orders are the same for both
 
 ## Joining data
 
@@ -113,6 +113,8 @@ beatles3 <-
 
 ```{r q2-task}
 df_q2 <-
+  inner_join(beatles1, beatles3, by = "name") %>% 
+  inner_join(., beatles2, by = "surname")
 ## TODO: Join beatles1 and beatles2 using beatles3 to match rows
 
 df_q2
@@ -196,13 +198,19 @@ flights %>%
 Complete the code below by using an appropriate join to add the airport name to the `flights` dataset.
 
 *Aside*: While you're at it, try replacing `left_join()` with `inner_join()`. What happens to the resulting data?
+```{r}
+flights
+airports
+```
+
+
 
 ```{r q3-task}
 ## TASK: Add the airport name for the `dest` using a join
 flights %>% 
   left_join(
     airports %>% select(faa, name),
-    ## TODO: Select the correct join keys
+    by = c("dest" = "faa")
   ) %>% 
   select(flight, dest, name, everything())
 ```
@@ -225,8 +233,27 @@ Use `expand_grid` to create a `criteria` dataframe with the `month` equal to `8,
 
 *Hint 2*: Remember to look up the documentation for a function you don't yet know!
 
+```{r}
+
+```
+
+
 ```{r q4-task}
+airport_codes <- 
+ airports %>% 
+  filter(
+    # name %in% c("San Jose Airport", "San Francisco", "Metropolitan Oakland")
+     str_detect(name, "San Jose") |
+      str_detect(name, "San Francisco") |
+      str_detect(name, "Metropolitan Oakland") 
+  ) %>% 
+  pull(faa)
+
 criteria <-
+  expand_grid(
+    month = c(8,9), 
+    dest = airport_codes
+    )
 ## TODO: Use expand_grid to create a criteria dataframe
 
 criteria
@@ -260,7 +287,9 @@ assertthat::assert_that(
             )
 
 print("Well done!")
+flights
 ```
+
 
 ### __q5__ Filter with your `criteria`
 
@@ -271,7 +300,9 @@ Use the `criteria` dataframe you produced above to filter `flights` on `dest` an
 ```{r q5-task}
 df_q5 <-
   flights %>%
-## TODO: Use expand_grid to create a criteria dataframe
+  semi_join(
+    criteria
+  )
 
 df_q5
 ```
