@@ -72,7 +72,7 @@ gapminder %>%
 
 This plot gives us a better sense of the disparities in life expectancy across continents.
 
-### __q1__ Fix this plot
+### **q1** Fix this plot
 
 The following graph doesn't work as its author intended. Based on what we learned above, fix the following code.
 
@@ -80,24 +80,26 @@ The following graph doesn't work as its author intended. Based on what we learne
 ## TODO: Fix the following code
 gapminder %>%
   filter(continent == "Asia") %>%
+  group_by(year) %>% 
+  summarize(lifeExp = mean(lifeExp)) %>% 
   ggplot(aes(year, lifeExp)) +
   geom_line()
 ```
 
-### __q2__ Diagnose this plot
+### **q2** Diagnose this plot
 
 A line plot makes *a certain assumption* about the underlying data. What assumption is this? How does that assumption relate to the following graph? Put differently, why is the use of `geom_line` a bad idea for the following dataset?
 
 ```{r q2-vis}
 ## TODO: No need to edit; just answer the questions
 mpg %>%
+  group_by(displ) %>% 
+  summarize(hwy = mean(hwy)) %>% 
   ggplot(aes(displ, hwy)) +
   geom_line()
 ```
 
-**Observations**:
-- What does a line plot assume about the data?
-- How does the `mpg` dataset violate this assumption?
+**Observations**: - What does a line plot assume about the data? - How does the `mpg` dataset violate this assumption?
 
 ## Smoothing data
 
@@ -138,7 +140,7 @@ mpg %>%
 
 We will talk later in the class about confidence intervals; for now, know that a wider confidence band indicates a less trustworthy fit of the model. For instance, we can see that the model has only one data point at `displ == 7`. Consequently, the model is less confident about the trend in that region.
 
-### __q3__ Compare raw and smoothed data
+### **q3** Compare raw and smoothed data
 
 The following graph shows both the raw data and a smoothed version. Describe the trends that you can see in the different curves.
 
@@ -151,12 +153,12 @@ economics %>%
   scale_color_discrete(name = "Source")
 ```
 
-**Observations**:
-- What can you tell based on the `Raw` data?
-- What can you tell based on the `Smoothed` data?
+**Observations**: - What can you tell based on the `Raw` data? - What can you tell based on the `Smoothed` data?
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-vis05-lines-assignment.Rmd).

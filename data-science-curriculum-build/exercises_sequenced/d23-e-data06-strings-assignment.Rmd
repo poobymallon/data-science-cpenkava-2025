@@ -79,7 +79,8 @@ mpg %>%
 ```{r q1-task}
 ## TODO: Filter down to trans that are manual
 df_q1 <-
-  mpg
+  mpg %>% 
+  filter(str_detect(trans, "manual"))
 df_q1 %>% glimpse()
 ```
 
@@ -114,7 +115,11 @@ Recall (from the reading) that `\d` is a regular expression referring to a singl
 ```{r q2-task}
 ## TODO: Filter down to trans that are manual
 df_q2 <-
-  mpg
+  mpg %>%
+  filter(
+    str_detect(trans, "\\d")
+  ) %>%
+  glimpse()
 df_q2 %>% glimpse()
 ```
 
@@ -192,7 +197,14 @@ Notice that the `trans` column of `mpg` has many entries of the form `auto|manua
 ```{r q3-task}
 ## TASK: Mutate `trans` to extract
 df_q3 <-
-  mpg
+  mpg %>% 
+  mutate(
+    tmp = str_extract(
+      trans, 
+      "[[:alpha:]]\\d"
+      )
+    )
+  
 df_q3 %>%
   select(tmp)
 ```
