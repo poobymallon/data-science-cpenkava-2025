@@ -41,9 +41,10 @@ curl::curl_download(
 ```
 
 ## Wrangling Basics
+
 <!-- ------------------------- -->
 
-### __q1__ Run the following code and pay attention to the column names. Open the downloaded Excel sheet and compare. Why are the column names so weird?
+### **q1** Run the following code and pay attention to the column names. Open the downloaded Excel sheet and compare. Why are the column names so weird?
 
 ```{r q1-task}
 ## NOTE: No need to edit; run and inspect
@@ -53,11 +54,11 @@ df_q1 %>% glimpse
 
 **Observations**:
 
-- Based on reading the Excel sheet, why do you think the columns are so weird?
+-   Based on reading the Excel sheet, why do you think the columns are so weird?
 
 Most `read_` functions have a *skip* argument you can use to skip over the first few lines. Use this argument in the next task to deal with the top of the Excel sheet.
 
-### __q2__ Read the Excel sheet.
+### **q2** Read the Excel sheet.
 
 Open the target Excel sheet (located at `./data/undoc.xlsx`) and find which line (row) at which the year column headers are located. Use the `skip` keyword to start your read at that line.
 
@@ -65,7 +66,7 @@ Open the target Excel sheet (located at `./data/undoc.xlsx`) and find which line
 ## TODO:
 df_q2 <- read_excel(
   filename,
-  skip = 1
+  skip = 6
 )
 df_q2 %>% glimpse
 ```
@@ -89,10 +90,10 @@ df_q2 %>% head()
 
 We still have problems:
 
-- The first few columns don't have sensible names. The `col_names` argument allows us to set manual names at the read phase.
-- Some of the columns are of the wrong type; for instance `2012` is a `chr` vector. We can use the `col_types` argument to set manual column types.
+-   The first few columns don't have sensible names. The `col_names` argument allows us to set manual names at the read phase.
+-   Some of the columns are of the wrong type; for instance `2012` is a `chr` vector. We can use the `col_types` argument to set manual column types.
 
-### __q3__ Change the column names and types.
+### **q3** Change the column names and types.
 
 Use the provided names in `col_names_undoc` with the `col_names` argument to set *manual* column names. Use the `col_types` argument to set all years to `"numeric"`, and the rest to `"text"`.
 
@@ -127,7 +128,12 @@ col_names_undoc <-
 
 ## TASK: Use the arguments `skip`, `col_names`, and `col_types`
 df_q3 <-
-  read_excel(filename, sheet = 1)
+  read_excel(filename, 
+             sheet = 1,
+             skip = 7,
+             col_names = col_names_undoc)
+
+glimpse(df_q3)
 ```
 
 Use the following test to check your work.
@@ -145,6 +151,7 @@ print("Great!")
 ```
 
 ## Danger Zone
+
 <!-- ------------------------- -->
 
 Now let's take a look at the head of the data:
@@ -200,14 +207,14 @@ We can see that `lagfill` has filled the `Africa` value in row 2, as well as a n
 
 What we'll do is continually run `lagfill` until we reduce `countna` to zero. We could do this by repeatedly running the function *manually*, but that would be silly. Instead, we'll run a `while` loop to automatically run the function until `countna` reaches zero.
 
-### __q4__ I have already provided the `while` loop below; fill in `vars_lagged` with the names of the columns where cell values are *implicit*.
+### **q4** I have already provided the `while` loop below; fill in `vars_lagged` with the names of the columns where cell values are *implicit*.
 
 *Hint*: Think about which columns have implicit values, and which truly have missing values.
 
 ```{r q4-task}
 ## Choose variables to lag-fill
 ## TASK: Choose the appropriate variables to lag-fill
-vars_lagged <- c()
+vars_lagged <- c(region, subregion)
 
 ## NOTE: No need to edit this
 ## Trim head and notes
@@ -226,7 +233,9 @@ while (countna(df_q4, vars_lagged) > 0) {
 And we're done! All of the particularly tricky wrangling is now done. You could now use pivoting to tidy the data into long form.
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-data09-readxl-assignment.Rmd).

@@ -23,31 +23,30 @@ library(tidyverse)
 
 ```
 
-### __q1__ Re-write the following code to use the *placeholder*.
+### **q1** Re-write the following code to use the *placeholder*.
 
 *Hint*: This may feel very simple, in which case good. This is not a trick question.
 
 ```{r q1-task}
 ## NOTE: Re-write this code to use the placeholder
-diamonds %>% glimpse()
+diamonds %>% glimpse(.)
 ```
 
-### __q2__ Fix the lambda expression
+### **q2** Fix the lambda expression
 
 The reading discussed *Using lambda expressions with `%>%`*; use this part of the reading to explain why the following code fails. Then fix the code so it runs without error.
 
 ```{r q2-task}
 ## TASK: Uncomment and run this code; explain
 ##       why it fails and fix it.
-# 2 %>%
-#   . * .
+2 %>%
+  {. * .}
 
 ```
 
-### __q3__ Re-write the following code using the placeholder `.` operator to simplify the second filter.
+### **q3** Re-write the following code using the placeholder `.` operator to simplify the second filter.
 
-*Hint*: You should be able to simplify the second call to `filter` down to just
-`filter(cut == "Fair")`.
+*Hint*: You should be able to simplify the second call to `filter` down to just `filter(cut == "Fair")`.
 
 ```{r q3-task}
 diamonds %>%
@@ -57,20 +56,20 @@ diamonds %>%
   geom_point() +
   geom_point(
     ## TODO: Re-write this section
-    data = diamonds %>%
+    data = . %>%
       filter(
-        carat <= 0.3,
         cut == "Fair"
       ),
     color = "red"
   )
 ```
 
-The placeholder even works at "later" points in a pipeline. We can use it to
-help simplify code, as you did above.
+The placeholder even works at "later" points in a pipeline. We can use it to help simplify code, as you did above.
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-data07-placeholders-assignment.Rmd).

@@ -20,14 +20,15 @@ library(tidyverse)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### __q1__ Use `theme_void()` and `guides()` (with an argument) to remove everything in this plot except the points.
+### **q1** Use `theme_void()` and `guides()` (with an argument) to remove everything in this plot except the points.
 
 ```{r q1-task}
 mpg %>%
   ggplot(aes(displ, hwy, color = class)) +
-  geom_point()
+  geom_point() +
+  theme_void() +
+  guides(color = "none")
 ```
-
 
 When I make presentation-quality figures, I often start with the following stub code:
 
@@ -63,7 +64,7 @@ theme_common <- function() {
 
 The `%+replace` magic above allows you to use `theme_common()` within your own ggplot calls.
 
-### __q2__ Use `theme_common()` with the following graph. Document what's changed by the `theme()` arguments.
+### **q2** Use `theme_common()` with the following graph. Document what's changed by the `theme()` arguments.
 
 ```{r q2-task}
 mpg %>%
@@ -72,16 +73,17 @@ mpg %>%
   labs(
     x = "Engine Displacement (L)",
     y = "Highway Fuel Economy (mpg)"
-  )
+  ) +
+  theme_common()
 ```
 
 **Observations**:
 
-- What changed about the graph when you added `theme_common()`?
+-   What changed about the graph when you added `theme_common()`?
 
 Calling `theme_common()`, along with settings `labs()` and making some smart choices about geoms and annotations is often all you need to make a *really high-quality graph*.
 
-### __q3__ Make the following plot as *ugly as possible*; the more `theme()` arguments you use, the better!
+### **q3** Make the following plot as *ugly as possible*; the more `theme()` arguments you use, the better!
 
 *Hint*: Use the `theme()` settings from q2 above as a starting point, and read the documentation for `theme()` to learn how to do more horrible things to this graph.
 
@@ -90,13 +92,19 @@ mpg %>%
   ggplot(aes(displ, hwy, color = class)) +
   geom_point() +
   theme(
-    axis.text.x = element_text(size = 32)
-  )
+    axis.text.x = element_text(size = 32),
+  ) +
+  theme_dark(
+      base_size = 20,
+      base_line_size = 100
+    )
+  
 ```
 
-
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-vis06-themes-assignment.Rmd).

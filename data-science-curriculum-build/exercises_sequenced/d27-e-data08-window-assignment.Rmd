@@ -19,6 +19,7 @@ library(ggrepel)
 ```
 
 ## Lead and Lag
+
 <!-- ------------------------- -->
 
 The lead and lag functions simply provide a "shifted" copy of a vector.
@@ -40,25 +41,32 @@ f <- x ^ 2
 ## Forward finite difference
 df_dx <- (lead(f) - f) / (lead(x) - x)
 df_dx
+
+
 ```
 
 Make sure to order your data or use the `order_by` argument when using `lead` or `lag`! GGplot automatically reorders your data when making a line plot, but `lead` and `lag` will use the order of the data you provide.
 
-### __q1__ Use a window function modify the following visual to color each segment differently based on whether the period of time was increasing or decreasing.
+### **q1** Use a window function modify the following visual to color each segment differently based on whether the period of time was increasing or decreasing.
 
 ```{r q1-task}
 ## TASK: Modify the following code to color each segment based on whether the
 ##       trend is increasing or decreasing in time
 economics %>%
-
+  mutate(
+    trend = ifelse(unemploy < lead(unemploy, order_by = date), "increasing",  "decreasing")
+    ) %>%
   ggplot(aes(date, unemploy)) +
   geom_segment(aes(
     xend = lead(date, order_by = date),
-    yend = lead(unemploy, order_by = date)
-  ))
+    yend = lead(unemploy, order_by = date),
+    color = trend  # Color segments based on the trend
+  )) +
+  scale_color_manual(values = c("increasing" = "green", "decreasing" = "red"))  # Green for increasing, red for decreasing
 ```
 
 ## Ranks
+
 <!-- ------------------------- -->
 
 The rank functions allow you to assign (integer) ranks to smallest (or largest) values of a vector.
@@ -127,11 +135,14 @@ tribble(
   )
 ```
 
-### __q2__ Use a rank function to filter the largest 3 `hwy` values and **all** vehicles that have those values.
+### **q2** Use a rank function to filter the largest 3 `hwy` values and **all** vehicles that have those values.
 
 ```{r q2-task}
 ## TASK: Use a rank function to filter the `mpg` data
 q2 <- mpg
+q2 <- q2 %>%
+  mutate(rank = dense_rank(-hwy)) %>%  # Rank by 'hwy', descending order
+  filter(rank <= 3)
 q2
 ```
 
@@ -144,7 +155,9 @@ print("Nice!")
 ```
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-data08-window-assignment.Rmd).
