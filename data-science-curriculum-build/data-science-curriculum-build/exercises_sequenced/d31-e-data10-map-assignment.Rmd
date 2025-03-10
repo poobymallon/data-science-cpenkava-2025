@@ -50,6 +50,7 @@ f2 <- function(x) {
   x2 <- x * 2 # Do an intermediate calculation
   x2 ^ 2      # The last value of the function is automatically returned as the output
 }
+map_dbl(v, f2)
 ```
 
 ## Formula notation
@@ -79,7 +80,8 @@ Use `map_chr()` to prepend the string `"N: "` to the numbers in `v_nums`. Use fo
 ```{r q1-task}
 v_nums <- c(1, 2, 3)
 ## TASK: Prepend "N: " with a map to v_nums
-v_q1 <- NA_character_
+
+v_q1 <- map_chr(v_nums, ~ str_c("N: ", as.character(.x)))
 
 v_q1
 ```
@@ -100,7 +102,7 @@ Use `map_dbl()` to compute the `log` with `base = 2` of the numbers in `v_nums`.
 
 ```{r q2-task}
 ## TASK: Compute the log base = 2 with a map
-v_q2 <- NA_character_
+v_q2 <- map_dbl(v_nums, ~ log(.x, base = 2))
 
 v_q2
 ```
