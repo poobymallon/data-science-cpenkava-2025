@@ -21,6 +21,7 @@ library(nycflights13)
 ```
 
 ## Central Limit Theorem
+
 <!-- -------------------------------------------------- -->
 
 Let's return to a result from `e-stat04-population`:
@@ -71,9 +72,11 @@ set.seed(101)
 n_repl <- 5e3
 
 df_clt <-
+  # [OUTER LOOP] Generate a sample n_repl times
   map_dfr(
     1:n_repl,
     function(id) {
+      # [INNER LOOP] Generate samples of sizes: 1, 2, 9, 81, 729
       map_dfr(
         c(1, 2, 9, 81, 729),
         function(n) {
@@ -86,6 +89,7 @@ df_clt <-
       )
     }
   ) %>%
+  # IMPORTANT END PART: COMPUTE AVERAGE
   group_by(n, id) %>%
   summarize(mean = mean(Z), sd = sd(Z))
 ```
@@ -106,6 +110,7 @@ The CLT doesn't work for *all* problems. The CLT is often used for sums of rando
 Note that the CLT tells us about estimates like the sample mean, it does *not* tell us anything about the distribution of the underlying population. We will use the CLT to help construct *confidence intervals*.
 
 ## Confidence Intervals
+
 <!-- -------------------------------------------------- -->
 
 Let's learn about confidence intervals by way of example. I'll lay out a procedure, then explain how it works.
@@ -164,9 +169,9 @@ df_clt %>%
 
 Some observations to note:
 
-- The confidence intervals tend to be larger when $n$ is small, and shrink as $n$ increases.
-- We tend to have more "misses" when $n$ is small.
-- Every confidence interval either **does** or **does not** include the true value. Therefore a single confidence interval actually has no probability associated with it. The "confidence" is not in a single interval, but rather in the procedure that generated the interval.
+-   The confidence intervals tend to be larger when $n$ is small, and shrink as $n$ increases.
+-   We tend to have more "misses" when $n$ is small.
+-   Every confidence interval either **does** or **does not** include the true value. Therefore a single confidence interval actually has no probability associated with it. The "confidence" is not in a single interval, but rather in the procedure that generated the interval.
 
 The following code estimates the frequency with which each interval includes the true mean; this quantity is called *coverage*, and it should match the nominal $95%$ we selected above.
 
@@ -186,12 +191,12 @@ df_clt %>%
 
 Some observations to note:
 
-- The coverage is well below our desired $95%$ when $n$ is small; this is because we are making an approximation.
-- As $n$ increases, the coverage tends towards our desired $95%$.
+-   The coverage is well below our desired $95%$ when $n$ is small; this is because we are making an approximation.
+-   As $n$ increases, the coverage tends towards our desired $95%$.
 
 [This animation](https://seeing-theory.brown.edu/frequentist-inference/index.html) is the best visual explain I've found on how confidence intervals are constructed [2].
 
-### __q1__ Make a CLT approximation for a confidence interval
+### **q1** Make a CLT approximation for a confidence interval
 
 Using the CLT, approximate a $99\%$ confidence interval for the population mean using the sample `z_q1`.
 
@@ -199,8 +204,11 @@ Using the CLT, approximate a $99\%$ confidence interval for the population mean 
 ## TASK: Estimate a 99% confidence interval with the sample below
 set.seed(101)
 z_q1 <- rnorm(n = 100, mean = 1, sd = 2)
-lo_q1 <- NA_real_
-hi_q1 <- NA_real_
+lo_q1 <- 1-qnorm( 1 - (1 - 0.99) / 2 )*2/ sqrt(100)
+hi_q1 <- 1+qnorm( 1 - (1 - 0.99) / 2 )*2/ sqrt(100)
+
+lo_q1
+hi_q1
 ```
 
 Use the following tests to check your answer.
@@ -213,6 +221,7 @@ print("Nice!")
 ```
 
 ## Making Comparisons with CI
+
 <!-- -------------------------------------------------- -->
 
 Why would we bother with constructing a confidence interval? Let's take a look at a real example with the NYC flight data.
@@ -296,6 +305,7 @@ These confidence intervals illustrate a number of different sampling scenarios. 
 However, combining all our available information to form a confidence interval is a principled way to report our results. A confidence interval gives us a plausible range of values for the population value, and by its width gives us a sense of how accurate our estimate is likely to be.
 
 ## (Bonus) Deriving an Approximate Confidence Interval
+
 <!-- -------------------------------------------------- -->
 
 (This is bonus content provided for the curious reader.)
@@ -319,17 +329,20 @@ $$\mathbb{P}[\overline{X} - q_C (\sigma / \sqrt{n}) < \mu < \overline{X} + q_C (
 Using a plug-in estimate for $\sigma$ gives the procedure defined above.
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-stat07-clt-assignment.Rmd).
 
 ## Notes
+
 <!-- -------------------------------------------------- -->
 
 [1] Namely, the population must have finite mean and finite variance.
 
-[2] [This](https://seeing-theory.brown.edu/frequentist-inference/index.html) **the best** visualization of the confidence interval concept that I have ever found. Click through Frequentist Inference > Confidence Interval to see the animation.
+[2] [This](https://seeing-theory.brown.edu/frequentist-inference/index.html) **the best** visualization of the confidence interval concept that I have ever found. Click through Frequentist Inference \> Confidence Interval to see the animation.
 
 [3] Part of the issue here is that we are not accounting for the additional variability that arises from estimating the standard deviation. Using a [t-distribution](https://en.wikipedia.org/wiki/Student%27s_t-distribution#Confidence_intervals) to construct more conservative confidence intervals helps at lower sample sizes.
 
