@@ -1,7 +1,7 @@
 ---
 title: "COVID-19"
-author: "(Your name here)"
-date: 2020-
+author: "Cooper Penkava"
+date: 2025-03-12
 output:
   github_document:
     toc: true
@@ -437,25 +437,25 @@ Observations:
 
 These data get a little busy, so it's helpful to know a few `ggplot` tricks to help with the visualization. Here's an example focused on Massachusetts.
 
-```{r ma-example}
-## NOTE: No need to change this; just an example
-df_normalized %>%
-  filter(
-    state == "Massachusetts", # Focus on Mass only
-    !is.na(fips), # fct_reorder2 can choke with missing data
-  ) %>%
-
-  ggplot(
-    aes(date, cases_per100k, color = fct_reorder2(county, date, cases_per100k))
-  ) +
-  geom_line() +
-  scale_y_log10(labels = scales::label_number_si()) +
-  scale_color_discrete(name = "County") +
-  theme_minimal() +
-  labs(
-    x = "Date",
-    y = "Cases (per 100,000 persons)"
-  )
+```{# {r ma-example}
+# ## NOTE: No need to change this; just an example
+# df_normalized %>%
+#   filter(
+#     state == "Massachusetts", # Focus on Mass only
+#     !is.na(fips), # fct_reorder2 can choke with missing data
+#   ) %>%
+# 
+#   ggplot(
+#     aes(date, cases_per100k, color = fct_reorder2(county, date, cases_per100k))
+#   ) +
+#   geom_line() +
+#   scale_y_log10(labels = scales::label_number_si()) +
+#   scale_color_discrete(name = "County") +
+#   theme_minimal() +
+#   labs(
+#     x = "Date",
+#     y = "Cases (per 100,000 persons)"
+#   )
 ```
 
 *Tricks*:
