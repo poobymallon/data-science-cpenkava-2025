@@ -126,6 +126,7 @@ df_long <- df_antibiotics %>%
                names_to = "antibiotic", 
                values_to = "MIC")
 
+
 ggplot(df_long, aes(x = antibiotic, y = bacteria, fill = MIC)) +
   geom_tile(color = "white") +  #
   geom_text(aes(label = ifelse(gram == "positive", "+", "-")), 

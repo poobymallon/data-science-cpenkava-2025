@@ -16,6 +16,7 @@ reading: 0
 ```{r library}
 library(tidyverse)
 library(googlesheets4)
+library(dplyr)
 ```
 
 ## Reading a Sheet with `googlesheets4`
@@ -77,9 +78,52 @@ Go to [Google Forms](https://www.google.com/forms/about/) and create a new form.
 ## TODO:
 url_custom_sheet <- "https://docs.google.com/spreadsheets/d/1FdXUX5LqM0hB8iL78IAXFFmJEauuwm0Yv3KUDE4ACDM/edit?resourcekey=&gid=46999762#gid=46999762"
 
-df_custom_sheet <- read_sheet(url_custom_sheet)
-df_custom_sheet %>% glimpse()
+df_hours <- read_sheet(url_custom_sheet)
+df_hours %>% glimpse()
 ```
+```{r}
+df_long <- df_hours %>%
+  pivot_longer(
+    cols = contains("what day"),
+    names_pattern = "\\[(\\w+)\\]",
+    names_to = "day",
+    values_to = "hours"
+  ) %>%
+  mutate(
+    hours = str_split(hours, ",")
+  ) %>%
+  unnest(hours) %>%
+  na.omit() %>%
+  mutate(hours = str_trim(hours),  # Remove leading/trailing whitespace
+         hours = toupper(hours)) %>% 
+  mutate(day = fct_relevel(day, "monday", "tuesdya", "wednseday", "thrusday", "friday", "saturday", "sunday" ))
+
+
+df_counts <- df_long %>%
+  count(day, hours)
+
+df_counts <- df_counts[order(df_counts$day),]
+df_counts
+```
+
+
+
+
+```{r}
+
+ggplot(df_counts, aes(x = day, y = hours, fill = n)) +
+  geom_tile(color = "white") +  
+  scale_fill_gradientn(
+    colors = c("white", "yellow", "orange", "red"),
+    ) + 
+  # labs(title = "Heatmap of Antibiotic Effectiveness by Bacteria",
+  #      x = "Antibiotic",
+  #      y = "Bacteria",
+  #      fill = "MIC") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
 
 Now as results from your survey come in, you can simply re-run this notebook to grab the most recent version of your data for local analysis.
 
