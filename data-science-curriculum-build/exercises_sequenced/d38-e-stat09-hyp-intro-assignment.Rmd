@@ -19,9 +19,10 @@ library(rsample)
 ```
 
 ## A Full Example
+
 <!-- -------------------------------------------------- -->
 
-You are considering buying a set of diamonds in bulk. The prospective vendor is willing to sell you 100 diamonds at $1700 per diamond. You will *not* get to see the specific diamonds before buying, though. To convince you, the vendor gives you a detailed list of a prior package of bulk diamonds they sold recently---they tell you this is *representative* of the packages they sell.
+You are considering buying a set of diamonds in bulk. The prospective vendor is willing to sell you 100 diamonds at \$1700 per diamond. You will *not* get to see the specific diamonds before buying, though. To convince you, the vendor gives you a detailed list of a prior package of bulk diamonds they sold recently---they tell you this is *representative* of the packages they sell.
 
 This is a weird contract, but it's intriguing. Let's use statistics to help determine whether or not to take the deal.
 
@@ -58,7 +59,6 @@ Based on the contract above, our decision threshold should be related to the sal
 price_threshold <- 1700
 ```
 
-
 In order to do hypothesis testing, we need to define *null and alternative hypotheses*. These two hypotheses are competing theories for the state of the world
 
 Furthermore, we are aiming to use hypothesis testing *to support making a decision*. To that end, we'll also define a default action (if we fail to reject the null), and an alternative action (if we find our evidence sufficiently convincing so as to change our minds).
@@ -67,31 +67,38 @@ For this buying scenario, we feel that the contract is pretty weird: We'll set u
 
 One way make our hypothesis quantitative is to think about the mean price of diamonds in the population: If the diamonds are---on average---less expensive than the `price_threshold`, then on average we'll tend to get a set of diamonds that are worth less than what we paid. This will be our null hypothesis. Consequently, our default action will be to buy no diamonds from this vendor. In standard statistics notation, this is how we denote our null and alternative hypotheses:
 
-**H_0** (Null hypothesis) The mean price of all diamonds in the population is less than the threshold `price_threshold`.
-- Default action: Buy no diamonds
+**H_0** (Null hypothesis) The mean price of all diamonds in the population is less than the threshold `price_threshold`. - Default action: Buy no diamonds
 
-**H_A** (Alternative hypothesis) The mean price of all diamonds in the population is equal to or greater than the threshold `price_threshold`.
-- Alternative action: Buy diamonds in bulk
+**H_A** (Alternative hypothesis) The mean price of all diamonds in the population is equal to or greater than the threshold `price_threshold`. - Alternative action: Buy diamonds in bulk
 
 ## Compute
 
-### __q1__ Assess the null hypothesis
+### **q1** Assess the null hypothesis
 
 Based on your results, can you reject the null hypothesis **H_0** for the population with a 95-percent confidence interval?
 
 ```{r q1-task}
 ## TASK: Compute a confidence interval on the mean, use to answer the question
 ## above
+df_sample %>% 
+  summarise(
+    sample_mean = mean(price),
+    sample_sd = sd(price),
+    c_lo = sample_mean -1.96*sample_sd,
+    c_hi = sample_mean +1.96*sample_sd
+  )
+  
 df_sample
 price_threshold
 ```
 
 **Observations**:
 
-- Can you reject the null hypothesis **H_0**?
-- How does this affect your decision?
+-   Can you reject the null hypothesis **H_0**?
+-   How does this affect your decision?
 
 ## Different Scenario, Different Hypotheses
+
 <!-- -------------------------------------------------- -->
 
 ## Proportion Ideal
@@ -106,15 +113,13 @@ Unfortunately, I haven't taught you any techniques for estimating a [CI for a pr
 
 Let's redefine our hypotheses to match the new scenario.
 
-**H_0** (Null hypothesis) The proportion of high-cut diamonds in the population is less than 50 percent.
-- Default action: Buy no diamonds
+**H_0** (Null hypothesis) The proportion of high-cut diamonds in the population is less than 50 percent. - Default action: Buy no diamonds
 
-**H_A** (Alternative hypothesis) The proportion of high-cut diamonds in the population is equal to or greater than 50 percent.
-- Alternative action: Buy diamonds in bulk
+**H_A** (Alternative hypothesis) The proportion of high-cut diamonds in the population is equal to or greater than 50 percent. - Alternative action: Buy diamonds in bulk
 
 Furthermore, let's change our decision threshold from 95-percent confidence to a higher 99-percent confidence.
 
-### __q2__ Construct a bootstrap CI for the proportion
+### **q2** Construct a bootstrap CI for the proportion
 
 Use the techniques you learned in `e-stat09-bootstrap` to estimate a 99-percent confidence interval for the population proportion of high-cut diamonds. Can you reject the null hypothesis? What decision do you take?
 
@@ -129,17 +134,18 @@ Use the techniques you learned in `e-stat09-bootstrap` to estimate a 99-percent 
 
 **Observations**:
 
-- Can you reject the null hypothesis **H_0**?
-- How does this affect your decision?
+-   Can you reject the null hypothesis **H_0**?
+-   How does this affect your decision?
 
 ## Closing Thoughts
+
 <!-- -------------------------------------------------- -->
 
 ## The big reveal
 
 To close this exercise, let's reveal whether our chosen hypotheses matched the underlying population.
 
-### __q3__ Mean price
+### **q3** Mean price
 
 Compute the population mean price for the diamonds. Did you reject the null hypothesis?
 
@@ -151,9 +157,9 @@ price_threshold
 
 **Observations**:
 
-- Did you reject the null hypothesis in q1?
-- What is the actual truth?
-- What decision did you make?
+-   Did you reject the null hypothesis in q1?
+-   What is the actual truth?
+-   What decision did you make?
 
 When I did q1, I **did not reject the null**. Note the weird wording there: **did not reject the null**, rather than "accepted the null". In this hypothesis testing framework we never actually *accept* the null hypothesis, we can only *fail to reject the null*. What this means is that we still maintain the possibility that the null is false, and all we can say for sure is that our data are not sufficient to reject the null hypothesis.
 
@@ -161,7 +167,7 @@ In other words, when we fail to reject the null hypothesis "we've learned nothin
 
 Learning nothing isn't a bad thing though! It's an important part of statistics to recognize when we've learned nothing.
 
-### __q4__ Proportion high-cut
+### **q4** Proportion high-cut
 
 Compute the proportion of high-cut diamonds in the population. Did you reject the null hypothesis?
 
@@ -171,9 +177,9 @@ Compute the proportion of high-cut diamonds in the population. Did you reject th
 
 **Observations**:
 
-- Did you reject the null hypothesis in q2?
-- What is the actual truth?
-- What decision did you make?
+-   Did you reject the null hypothesis in q2?
+-   What is the actual truth?
+-   What decision did you make?
 
 When I did q2 I **did reject the null hypothesis**. It happens that this was the correct choice; the true proportion of high-cut diamonds is greater than 50-percent.
 
@@ -184,7 +190,9 @@ Note that the underlying population is *identical* in the two settings above, bu
 If you've taken a statistics course, you might be wondering why I'm talking about hypothesis testing *without* introducing p-values. I feel that confidence invervals more obviously communicate the uncertainty in results, in line with Andrew Gelman's suggestion that we [embrace uncertainty](https://stat.columbia.edu/~gelman/research/published/asa_pvalues.pdf). The penalty we pay working with (two-sided) confidence intervals is a reduction in [statistical power](https://en.wikipedia.org/wiki/Power_of_a_test).
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-stat09-hyp-intro-assignment.Rmd).

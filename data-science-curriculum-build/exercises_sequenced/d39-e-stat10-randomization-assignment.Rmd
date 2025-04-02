@@ -83,7 +83,7 @@ tibble(
 
 Now let's simulate the results of the experiment!
 
-### __q1__ Simulate
+### **q1** Simulate
 
 Simulate the results of this experimental design, and answer the questions under *Observations* below.
 
@@ -104,12 +104,12 @@ experimental_design %>%
 
 *Observations*
 
-- Which experimental condition do you *expect* to have greater yield? The Treatment `T` or Control `C`?
-  - (Your response here)
-- Which experimental condition do your results suggest has a higher mean yield? The Treatment `T` or Control `C`?
-  - (Your response here)
-- The true difference between the treatment mean and control mean is such that the treatment yield should be `1` unit higher. How does your difference compare with that difference?
-  - (Your response here)
+-   Which experimental condition do you *expect* to have greater yield? The Treatment `T` or Control `C`?
+    -   T bc fertilizer
+-   Which experimental condition do your results suggest has a higher mean yield? The Treatment `T` or Control `C`?
+    -   (Your response here)
+-   The true difference between the treatment mean and control mean is such that the treatment yield should be `1` unit higher. How does your difference compare with that difference?
+    -   (Your response here)
 
 ## Confound - Increased yield due to proximity to the river!
 
@@ -150,13 +150,13 @@ While fertilizer leads to an increase in crop yield, additional water also leads
 
 Terminology: When there are other factors present in an experiment affecting our outcome of interest, we call those factors *confounds*. When we don't know that a confound exists, it is sometimes called a *lurking variable* (Joiner 1979).
 
-### __q2__ "Outsmart" the confound
+### **q2** "Outsmart" the confound
 
 Try defining a different order of the plots to overcome the confound (river).
 
 ```{r q2-task}
 ## TODO: Define your own experimental design
-your_design <- NA_character_
+your_design <- c("T", "C", "C", "T", "T", "C")
 
 ## NOTE: No need to edit; use this to simulate your design
 your_design %>%
@@ -170,12 +170,12 @@ your_design %>%
 
 *Observations*
 
-- Which experimental condition do your results suggest has a higher mean yield? The Treatment `T` or Control `C`?
-  - (Your response here)
-- The true difference between the treatment mean and control mean is such that the treatment yield should be `1` unit higher. How does your difference compare with that difference?
-  - (Your response here)
-- What effects are you seeing? The effect of the Treatment `T` *only*, or the combined effects of the Treatment and the river? How does this affect your estimate of the effect of the treatment?
-  - (Your response here)
+-   Which experimental condition do your results suggest has a higher mean yield? The Treatment `T` or Control `C`?
+    -   (Your response here)
+-   The true difference between the treatment mean and control mean is such that the treatment yield should be `1` unit higher. How does your difference compare with that difference?
+    -   (Your response here)
+-   What effects are you seeing? The effect of the Treatment `T` *only*, or the combined effects of the Treatment and the river? How does this affect your estimate of the effect of the treatment?
+    -   (Your response here)
 
 ## Randomization to the rescue!
 
@@ -197,7 +197,7 @@ experimental_design %>%
 
 If we randomize the order of treatment and control plots, then we *transform* the effects of the river (and any other confounds) into a random effect.
 
-### __q3__ Randomize
+### **q3** Randomize
 
 Randomize the run order to produce your design. Answer the questions under *Observations* below.
 
@@ -219,12 +219,12 @@ experimental_design %>%
 
 *Observations*
 
-- Which experimental condition do you find has a higher mean yield? The Treatment `T` or Control `C`?
-  - (Your response here)
-- Since you've randomized the conditions, will the confound (river) have a *consistent* effect on the outcome?
-  - (Your response here)
-- The true difference between the treatment mean and control mean is one unit. How does your difference compare with that value?
-  - (Your response here)
+-   Which experimental condition do you find has a higher mean yield? The Treatment `T` or Control `C`?
+    -   (Your response here)
+-   Since you've randomized the conditions, will the confound (river) have a *consistent* effect on the outcome?
+    -   (Your response here)
+-   The true difference between the treatment mean and control mean is one unit. How does your difference compare with that value?
+    -   (Your response here)
 
 ## Why does randomization work?
 
@@ -260,8 +260,8 @@ However, when we randomize, a mix of high and low river effects enter into both 
 
 It's not randomization alone that's saving us from confounds: The river will boost production for all plots, so we'll always see a yield higher than what we'd get with the treatment or control alone. Studying the difference between treatment and control cancels out any constant difference, while randomization scrambles the effect of the river. This is why we combine randomization with a treatment-to-control comparison:
 
-- Randomization allows us to transform confounds into a random effect
-- Comparing a treatment and control allows us to isolate the effect of the treatment
+-   Randomization allows us to transform confounds into a random effect
+-   Comparing a treatment and control allows us to isolate the effect of the treatment
 
 Using both ideas together---randomization with a control---is the foundation of sound experimental design. A similar idea---[random assignment](https://en.wikipedia.org/wiki/Random_assignment)---is used in medical science to determine the effects of new drugs and other medical interventions.
 
@@ -269,14 +269,16 @@ Using both ideas together---randomization with a control---is the foundation of 
 
 Here are the key takeaways from this lesson:
 
-- "More data" is not enough for sound science; the *right* data is what you need to understand an effect.
-- Getting the right data is a matter of carefully planning your data collection; *designing an experiment*.
-- Confounds can confuse our analysis of data, and lead us to make incorrect conclusions.
-  - **No amount of fancy math can overcome poorly-collected data**.
-- Randomization, paired with a treatment-to-control comparison, is our best tool to deal with confounds.
+-   "More data" is not enough for sound science; the *right* data is what you need to understand an effect.
+-   Getting the right data is a matter of carefully planning your data collection; *designing an experiment*.
+-   Confounds can confuse our analysis of data, and lead us to make incorrect conclusions.
+    -   **No amount of fancy math can overcome poorly-collected data**.
+-   Randomization, paired with a treatment-to-control comparison, is our best tool to deal with confounds.
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-stat10-randomization-assignment.Rmd).

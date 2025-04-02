@@ -16,17 +16,20 @@ To do this, we'll make use of The Islands, an extremely detailed simulation of a
 This is part 1 of 2. In this part you will *plan* your statistical project, particularly your data collection. Sound data collection is called *statistical design*.
 
 <!-- include-rubric -->
+
 # Grading Rubric
+
 <!-- -------------------------------------------------- -->
 
 Unlike exercises, **challenges will be graded**. The following rubrics define how you will be graded, both on an individual and team basis.
 
 ## Individual
+
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----------|----------------|--------------|
-| Effort | Some task __q__'s left unattempted | All task __q__'s attempted |
+|------------------|-----------------------------|-------------------------|
+| Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
 | Assessed | Observations include claims not supported by the data, or reflect a level of certainty not warranted by the data | Observations are appropriately qualified by the quality & relevance of the data and (in)conclusiveness of the support |
@@ -34,12 +37,13 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 | Code Styled | Violations of the [style guide](https://style.tidyverse.org/) hinder readability | Code sufficiently close to the [style guide](https://style.tidyverse.org/) |
 
 ## Submission
+
 <!-- ------------------------- -->
 
 Make sure to commit both the challenge report (`report.md` file) and supporting files (`report_files/` folder) when you are done! Then submit a link to Canvas. **Your Challenge submission is not complete without all files uploaded to GitHub.**
 
-
 # Setup
+
 <!-- ----------------------------------------------------------------------- -->
 
 ```{r setup}
@@ -49,7 +53,7 @@ library(rsample)
 filename_random <- "./data/helvig-random.csv"
 ```
 
-### __q1__ Orientation
+### **q1** Orientation
 
 Log into [The Islands](https://islands.smp.uq.edu.au/index.php) and head to the [Visitor Center](https://islands.smp.uq.edu.au/visitors.php) on Providence island (to the east). Watch the first three videos on the `Guides` tab.
 
@@ -57,7 +61,7 @@ Log into [The Islands](https://islands.smp.uq.edu.au/index.php) and head to the 
 
 The Islands is an *incredibly* detailed simulation of a real population. Islanders are born, die, and move around. The Islands was designed as a teaching tool to help students learn how to apply statistics to collecting data in the real world.
 
-### __q2__ Occupied homes
+### **q2** Occupied homes
 
 Find the total number of homes in Helvig, and count the number of unoccupied homes. Answer the questions below.
 
@@ -65,16 +69,18 @@ NB. When Zach counted the homes (on 2025-01-08), he found 20 unoccupied out of 5
 
 **Observations**:
 
-- What is the total number of homes in Helvig?
-  - (Your response here)
-- What is the number of unoccupied homes? (*Hint*: This is not given anywhere. You will have to count them!)
-  - (Your response here)
-- What percent of homes are *occupied*?
-  - (Your response here)
-- Are there any sources of *real* uncertainty in the percent occupied you calculated?
-  - (Your response here)
-- Are there any sources of *erroneous* uncertainty in the percent occupied you calculated?
-  - (Your response here)
+observations taken 2:00 PM 4/1/2025
+
+-   What is the total number of homes in Helvig?
+    -   551 homes
+-   What is the number of unoccupied homes? (*Hint*: This is not given anywhere. You will have to count them!)
+    -   18
+-   What percent of homes are *occupied*?
+    -   (551-18)/551 = 96.73%
+-   Are there any sources of *real* uncertainty in the percent occupied you calculated?
+    -   no - this represents the whole population
+-   Are there any sources of *erroneous* uncertainty in the percent occupied you calculated?
+    -   yes - I could have counted wrong!
 
 Zach looked at the first 25 homes in Helvig and recorded the `age` and `name` of every person in those homes. These people are provided in `helvig-seq.csv`.
 
@@ -82,11 +88,12 @@ Zach looked at the first 25 homes in Helvig and recorded the `age` and `name` of
 ## NOTE: Do not edit this
 df_sample_seq <- read_csv("./data/helvig-seq.csv")
 df_sample_seq 
+
 ```
 
 You'll use this dataset as a starting point to figure out prevalent *last names* in Helvig.
 
-### __q3__ Find common names: Sequential sample
+### **q3** Find common names: Sequential sample
 
 Complete the code below to find the prevalence of the most common *last name* in Helvig using the sample `df_sample_seq`. Answer the questions below.
 
@@ -98,6 +105,10 @@ Make sure to include in `df_q3` the counts as a column named `n`, and the preval
 ## TASK: Compute the prevalence and sort
 df_q3 <- 
   df_sample_seq %>% 
+  mutate(last_name = str_extract(name, "\\w+$")) %>% 
+  count(last_name) %>% 
+  arrange(desc(n)) %>% 
+  mutate(p = n/sum(n))
 ## TODO: Complete this code
 
 df_q3
@@ -120,14 +131,14 @@ print("Very good!")
 
 *Observations*
 
-- What last name is most prevalent in `df_sample_seq`?
-  - (Your response here)
-- Is this sample representative of *all* houses in Helvig? Why or why not?
-  - (Your response here)
+-   What last name is most prevalent in `df_sample_seq`?
+    -   Sorensen is most prevalent
+-   Is this sample representative of *all* houses in Helvig? Why or why not?
+    -   No! This was only a sample of the first 25, so it can't be representative of all houses. What if Sorensen family chose to live near each other, which is why they show up most in the first 25, but behind the scenes they don't show up in any of the other 500 some houses?
 
 In the exercises, we talked about the importance of random sampling. In the previous challenge, we were able to *simulate* a random sample by running a few lines of code. But in the real world, we have to work harder to gather a random sample. We'll do this in two stages: *plan* then *collect*.
 
-### __q4__ Plan a random sample
+### **q4** Plan a random sample
 
 Complete the code below to draw a sample of size `n=25`. Replace `n_houses` with the (current) total number in Helvig.
 
@@ -135,8 +146,8 @@ Complete the code below to draw a sample of size `n=25`. Replace `n_houses` with
 ## TASK: Set the parameters for this code block
 
 ## Select a random sample of houses
-# n_houses <- ??? # Total number of houses
-# n_sample <- ???  # Desired sample size
+n_houses <- 551 # Total number of houses
+n_sample <- 25  # Desired sample size
 
 set.seed(101)   # Set a seed for reproducibility
 
@@ -165,7 +176,7 @@ assertthat::assert_that(
 )
 ```
 
-### __q5__ Collect the random sample
+### **q5** Collect the random sample
 
 Gather the names of all people in the homes you listed in the previous exercise. Match the same columns as `df_sample_seq`; those are, `house`, `age`, `name`. Make sure to include `NA` rows for houses with no occupants. Save your data as a CSV with the filename provided in the variable `filename_random`. Answer the questions below.
 
@@ -182,11 +193,13 @@ The following code will load your data.
 ## NOTE: Do not edit
 df_sample_random <- 
   read_csv(filename_random)
+
+df_sample_random
 ```
 
 Use the following to check your work.
 
-```{r q3-tests}
+```{r q5-tests}
 ## NOTE: No need to change this
 # Check that the dataset has the correct column names
 assertthat::assert_that(setequal(
@@ -224,11 +237,11 @@ print("Great work!")
 
 *Observations*
 
-- Which sample---sequential or random---is more *representative* of all homes Helvig? Why?
-  - (Sequential or random?)
-  - (Write your 'why' here.)
+-   Which sample---sequential or random---is more *representative* of all homes Helvig? Why?
+    -   random
+    -   as I stated earlier, just picking the first n fails to capture any possible geographic differences within the people - picking a random sample means that each person at least has a chance to be picked
 
-### __q6__ Find common names: Random sample
+### **q6** Find common names: Random sample
 
 Run the code below to find the prevalence of the most common *last name* in Helvig using the sample `df_sample_random`. Answer the questions below.
 
@@ -243,16 +256,16 @@ df_sample_random %>%
 
 *Observations*
 
-- Did you find any highly prevalent names using `df_sample_random` that you *didn't* find in q3 (using `df_sample_seq`)? Write them here.
-  - (Your response here)
-- Is there any reason that people with the same last name might tend to *live near each other*?
-  - (Your response here)
+-   Did you find any highly prevalent names using `df_sample_random` that you *didn't* find in q3 (using `df_sample_seq`)? Write them here.
+    -   Yes I did! We did not see Collins, Blomgren, or Regan!
+-   Is there any reason that people with the same last name might tend to *live near each other*?
+    -   Oh my gosh, I'm so glad you've asked. As stated before, humans tend to attempt to live next to the people they like and the people they visit most often for convenience reasons. This would lead to the case that many families (people typically with the same last name as each other) may try their best to live as close as possible to each other.
 
 You should have found some difference between the sequential and random samples. This is because we're only working with a *sample*---a limited number of observations from the entire population. We could go to every single house in Helvig and determine *exactly* how many people of each name there are (that's called a *census*), but the point of statistical inference is that we can make statements about a population using only a sample. What makes statistical inference powerful is that we can determine *how confident* we should be in our results, based on the size of our sample.
 
 To do this, we'll use the bootstrap approach that you saw in the exercise sequence. We'll start by building a helper function.
 
-### __q7__ Write a helper function
+### **q7** Write a helper function
 
 Complete the code below to write a helper function. Your function will compute the proportion of people in a sample that have a user-specified last name.
 
@@ -263,8 +276,33 @@ Complete the code below to write a helper function. Your function will compute t
 #  in an `estimate` column).
 name_prevalence <- function(df, last = "Collins") {
   df %>% 
+    na.omit() %>% 
+    mutate(last_name = str_extract(name, "\\w+$")) %>% 
+    count(last_name) %>% 
+    arrange(desc(n)) %>% 
+    mutate(p = n / sum(n))
     ## TODO: Finish this code
     mutate(term = "prevalence")
+    select(term, ep)
+}
+```
+
+```{r}
+## TASK: Write a helper function that takes a dataframe with full names 
+#  (provided in a `name` column), removes any invalid rows, and computes the
+#  proportion of individuals with the user-specified `last` name (returned
+#  in an `estimate` column).
+name_prevalence <- function(df, last = "Collins") {
+  df %>% 
+    na.omit() %>% 
+    mutate(last_name = str_extract(name, "\\w+$")) %>% 
+    count(last_name) %>% 
+    arrange(desc(n)) %>% 
+    mutate(estimate = n / sum(n)) %>% 
+    filter(last_name == last) %>%
+    ## TODO: Finish this code
+    mutate(term = "prevalence") %>% 
+    select(term, estimate)
 }
 ```
 
@@ -309,7 +347,7 @@ assertthat::assert_that(
 print("Nice!")
 ```
 
-### __q8__ Construct a bootstrap confidence interval
+### **q8** Construct a bootstrap confidence interval
 
 Choose a prevalent name that you found in q6. Use bootstrap resampling with your helper function to construct a confidence interval for the prevalence of that name. Answer the questions below.
 
@@ -326,6 +364,8 @@ df_interval_bootstrap <-
       function(split_df) {
 ## TODO: Finish this code, using the name_prevalence() helper you implemented
 ## HINT: Remember that you need to use analysis() when operating on split_df
+        analysis(split_df) %>% 
+        name_prevalence(last = "Sorensen")
       }
     )
   ) %>% 
@@ -338,58 +378,80 @@ df_interval_bootstrap
 
 **Observations**:
 
-- What is highest possible prevalence for your chosen name, based on the confidence interval you constructed?
-  - (Your response here)
-- Note that we used the *random* sample with the bootstrap procedure in this task. Could we use the bootstrap to make a confidence interval using the sequential sample (`df_sample_seq`) that would be representative of all of Helvig? Why or why not?
-  - (Yes or no.)
-  - (Write your 'why' here.)
+-   What is highest possible prevalence for your chosen name, based on the confidence interval you constructed?
+    -   14% based on this confidence interval
+-   Note that we used the *random* sample with the bootstrap procedure in this task. Could we use the bootstrap to make a confidence interval using the sequential sample (`df_sample_seq`) that would be representative of all of Helvig? Why or why not?
+    -   no
+    -   I still think that it would not be representative because it doesn't take into account the geographic variable. The geographic variable could be a large factor of covariance, so it could potentially skew the bootstrapping. There is bias in the initial sample, so this will show up in the bootstrap samples we draw from it.
 
-### __q9__ Discover possible measurements
+### **q9** Discover possible measurements
 
 Click on a single islander (you can do this from one of the houses), and take a look at what info they can provide. Write down three pieces of info that you're particularly interested in; this will inform your quantity of interest for the final task.
 
 *Hint*: The videos from the [Visitor Center](https://islands.smp.uq.edu.au/visitors.php) will be especially helpful for getting some ideas.
 
-- (Possible measurement #1)
-- (Possible measurement #2)
-- (Possible measurement #3)
+-   BAC
+-   rank their happiness in a survey
+-   occupation
 
-### __q10__ Planning a study (TEAMWORK)
+### **q10** Planning a study (TEAMWORK)
 
 Challenge 10 will be a team assignment where you plan and execute a statistical study using The Islands. You should meet with your learning team for Challenge 10 to complete the steps below---though everyone is responsible for including the plan in their individual Challenge 08 submission.
 
 #### Population
 
-- (What population are you going to study?)
-  - All of the Islanders? Only the residents of Helvig? Participants meeting certain criteria (in which case, you need to list *covariates*)?
+-   (What population are you going to study?)
+    -   All of the Islanders? Only the residents of Helvig? Participants meeting certain criteria (in which case, you need to list *covariates*)?
+
+We will be studying just the residents of Helvig
 
 #### Quantity of interest
 
-- (Write your quantity of interest here)
+-   wage/worth
 
 #### Covariates
 
-- (Write any relevant covariates here)
-- (There's probably more than one!)
+-   occupation
+-   gender
+-   age
+-   
 
 #### Observation or experiment?
 
 The Islands allows you to ask islanders to complete tasks. If you just take measurements on your participants, then it's an *observational study*. But if you also introduce something that's meant to change the outcome of a measurement (e.g., drinking coffee before taking a test), that's called an *experimental study*. You need to decide whether your study is observational or experimental.
 
-- (Observation or experiment?)
+-   Our study is purely observational because we will just collect their data at point of observation. They will not be doing anything for us.
 
 #### Question / Hypothesis
 
-- (Write your question / hypothesis here)
-  - This could be an observational question, like "How are X and Y related in the population?"
-  - This could be an experimental question, like "What effect does X have on Y in the population?"
+-   How are wage and gender/age related in the population? Specifically, do any patterns show up in the farming community?
+    -   This could be an observational question, like "How are X and Y related in the population?"
+    -   This could be an experimental question, like "What effect does X have on Y in the population?"
+
+alternatively, here is what my team came up with after I worked with them on this, seeing as that is how the project is going to go, so the one I made above doesn't mean that much:
+
+-   How are farming occupation and islander worth related for the residents of Helvig?
+
+**We believe that certain farming occupations increase islander individual worth.** We are also investigating gender and age in conjunction to isolate the effects of farming occupation and worth.
 
 #### Sampling plan
 
-- (What steps will you take to collect the data?)
-  - Be specific. For instance, if you're going to collect a random sample, how will you enumerate all of the things to be sampled?
-  - Write a protocol. Document step-by-step instructions that your team will follow. That way, you can feasibly split up data collection among the whole team, while making sure each team member doesn't make ad hoc decisions that introduce bias into your results.
-- (How will you ensure the data is representative of your chosen population?)
-- (For experiments only: How will you ensure any effects you observe are due to the treatment, and not due to other factors?)
-- (How will you choose your sample size?)
-  - This should be a mix of how confident you want to be in your results, and what is actually *feasible* for your research team.
+-   (What steps will you take to collect the data?)
+    -   Be specific. For instance, if you're going to collect a random sample, how will you enumerate all of the things to be sampled?
+    -   Write a protocol. Document step-by-step instructions that your team will follow. That way, you can feasibly split up data collection among the whole team, while making sure each team member doesn't make ad hoc decisions that introduce bias into your results.
+
+There are five farming occupations in Helvig: Dairy, Oats, Pigs, Poultry, and Sheep. We copied and pasted the list from the Bureau of Helvig in the respective order, and the names are ordered alphabetically based on last names. This list is then put into an Excel spreadsheet, where the first person is enumerated as 1, and so on.
+
+We will then put this into a random number generator to select the individuals for our sample based on assigned numbers. After the generation of these 45 random numbers, we will collect the data for each assigned person–occupation, worth, gender, and age. To do so, we will go to the Helvig Bureau, go to “Registers,” find each individual’s name under their farming occupation, click on their name, and note their gender, age and worth. This data will then go into a spreadsheet that we will later turn into a csv for data analysis. 
+
+As this is an observational study, not an experimental one, the introduction of bias is very limited as we are simply collecting four pieces of data from each person.
+
+-   (How will you ensure the data is representative of your chosen population?)
+-   (For experiments only: How will you ensure any effects you observe are due to the treatment, and not due to other factors?)
+
+We will take a random sample of 45 individuals (roughly half of the population). We placed all of the farming occupations and their names into a sheet. Once we do this, we will use a random number generator to select 45 individuals from the total farming population. By using a larger random sample, this will ensure we are able to capture demographics and information from all of the different farming groups (which range in size 10-31 individuals). This will additionally capture the variance in gender and age based on population demographics.
+
+-   (How will you choose your sample size?)
+    -   This should be a mix of how confident you want to be in your results, and what is actually *feasible* for your research team.
+
+We will choose a sample size of 45 individuals as we want to be fairly confident in our results. As the population size is 92 individuals and we have four members on our team, each collecting roughly 11 people’s worth of data is attainable.

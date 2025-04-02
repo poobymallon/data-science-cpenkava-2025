@@ -23,6 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Small Multiples
+
 <!-- -------------------------------------------------- -->
 
 Facets in ggplot allow us to apply the ideas of [small multiples](https://en.wikipedia.org/wiki/Small_multiple). As an example, consider the following graph:
@@ -72,18 +73,24 @@ There's a trick to getting the visual above; removing the facet variable from an
 
 The presence of these "ghost" points provides more context; they facilitate the "Compared to what?" question that Tufte puts at the center of quantitative reasoning.
 
-### __q1__ Edit the following figure to use the "ghost" point trick above.
+### **q1** Edit the following figure to use the "ghost" point trick above.
 
 ```{r q1-task}
 ## TODO: Edit this code to facet on `cut`, but keep "ghost" points to aid in
 ## comparison.
 diamonds %>%
   ggplot(aes(carat, price)) +
-  geom_point()
+  geom_point(
+    data = . %>% select(-cut),
+    color = "grey80"
+  ) +
+  geom_point() +
+  facet_wrap(~cut) +
+  theme_minimal()
 ```
 
-
 ## Organizing Factors
+
 <!-- -------------------------------------------------- -->
 
 Sometimes your observations will organize into natural categories. In this case facets are a great way to group your observations. For example, consider the following figure:
@@ -108,13 +115,13 @@ mpg %>%
 
 There's *a lot* going on this figure, including a number of subtle points. Let's list them out:
 
-- I filter on the latest model with the `row_number` call (not strictly necessary).
-- I'm re-ordering both the `manufacturer` and `model` on `hwy`.
-  - However, I reverse the order of `model` to get a consistent "descending" pattern.
-- I set both the `scale` and `space` arguments of the facet call; without those the spacing would be messed up (try it!).
-- I rotate the facet labels to make them more readable.
+-   I filter on the latest model with the `row_number` call (not strictly necessary).
+-   I'm re-ordering both the `manufacturer` and `model` on `hwy`.
+    -   However, I reverse the order of `model` to get a consistent "descending" pattern.
+-   I set both the `scale` and `space` arguments of the facet call; without those the spacing would be messed up (try it!).
+-   I rotate the facet labels to make them more readable.
 
-### __q2__ Create a small multiple plot like `ex-mpg-manufacturer` above. Keep in mind the idea of "compared to what?" when deciding which variables to place close to one another.
+### **q2** Create a small multiple plot like `ex-mpg-manufacturer` above. Keep in mind the idea of "compared to what?" when deciding which variables to place close to one another.
 
 ```{r q2-task}
 ## TODO: Create a set of small multiples plot from these data
@@ -126,9 +133,10 @@ as_tibble(iris) %>%
   )
 ```
 
-
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-vis08-multiples-assignment.Rmd).
