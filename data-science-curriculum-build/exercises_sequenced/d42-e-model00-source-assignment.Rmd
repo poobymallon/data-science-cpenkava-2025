@@ -30,8 +30,8 @@ As descrinbed in the reading, the *cause-source quadrants* organize variability 
 
 ![Variability quadrants](./images/cause-source-quadrants.png)
 
-- *Cause* is an idea from statistical quality control (manufacturing); a *chance cause* is modeled as random, while an *assignable cause* is thought to be traceable and preventable.
-- *Source* is an idea from statistics education theory; this concept is explained further below.
+-   *Cause* is an idea from statistical quality control (manufacturing); a *chance cause* is modeled as random, while an *assignable cause* is thought to be traceable and preventable.
+-   *Source* is an idea from statistics education theory; this concept is explained further below.
 
 ## Real vs Erroneous Source
 
@@ -53,20 +53,20 @@ Other physical quantities exhibit both real and erroneous variability. Since the
 
 ## Scenarios
 
-### __q1__ Imagine the manufacturer selects one part and performs multiple non-destructive tensile tests on that single part, under similar conditions. The measured elasticity from each test is slightly different. Is this variability real or erroneous?
+### **q1** Imagine the manufacturer selects one part and performs multiple non-destructive tensile tests on that single part, under similar conditions. The measured elasticity from each test is slightly different. Is this variability real or erroneous?
 
-- real or erroneous?
-- (Why?)
+-   real or erroneous?
+-   (Why?)
 
-### __q2__ Imagine the manufacturer selects multiple parts and---for each part---performs multiple non-destructive tensile tests, all under similar conditions. The measured elasticity values for each part are averaged to provide a more reliable estimate for each part. Upon comparing the parts, each averaged value is fairly different. Is this variability real or erroneous?
+### **q2** Imagine the manufacturer selects multiple parts and---for each part---performs multiple non-destructive tensile tests, all under similar conditions. The measured elasticity values for each part are averaged to provide a more reliable estimate for each part. Upon comparing the parts, each averaged value is fairly different. Is this variability real or erroneous?
 
-- real or erroneous?
-- (Why?)
+-   real or erroneous?
+-   (Why?)
 
-### __q3__ Now the manufacturer selects multiple parts and performs a destructive tensile test to characterize the strength of each part, with tests carried out under similar conditions. The measured strength values exhibit a fair amount of variability. Is this variability real or erroneous?
+### **q3** Now the manufacturer selects multiple parts and performs a destructive tensile test to characterize the strength of each part, with tests carried out under similar conditions. The measured strength values exhibit a fair amount of variability. Is this variability real or erroneous?
 
-- real or erroneous?
-- (Why?)
+-   real or erroneous?
+-   (Why?)
 
 ## Analyzing Data
 
@@ -87,9 +87,7 @@ df_meas <-
   )
 ```
 
-`id_sample` - represents an individual part
-`id_meas` - represents an individual measurement, with multiple carried out on each part
-`Y` - an individual measurement, identified by `id_sample` and `id_meas`
+`id_sample` - represents an individual part `id_meas` - represents an individual measurement, with multiple carried out on each part `Y` - an individual measurement, identified by `id_sample` and `id_meas`
 
 If we make a simple histogram, we can see that the measured value `Y` is highly variable:
 
@@ -101,7 +99,7 @@ df_meas %>%
 
 However, these data exhibit multiple *sources* of variability. The following questions will help you learn how to analyze data in light of this mixed variability.
 
-### __q4__ Inspect the following graph. Answer the questions under *observations* below.
+### **q4** Inspect the following graph. Answer the questions under *observations* below.
 
 ```{r q4-task}
 ## NOTE: No need to edit; run and inspect
@@ -118,15 +116,13 @@ df_meas %>%
   theme_minimal()
 ```
 
-*Observations*
-- Which is larger: The variability due to noise, or the variability due to deviation?
-  - (Your response here)
+*Observations* - Which is larger: The variability due to noise, or the variability due to deviation? - (Your response here)
 
-### __q5__ Imagine `Y` represents the measured strength of the cast steel. Would it be safe to simply average all of the values and use that as the material strength for design?
+### **q5** Imagine `Y` represents the measured strength of the cast steel. Would it be safe to simply average all of the values and use that as the material strength for design?
 
-- (Your response here)
+-   (Your response here)
 
-### __q6__ Compute the `0.1` quantile of the `Y` measurements. Would this be a conservative value to use as a material strength for design?
+### **q6** Compute the `0.1` quantile of the `Y` measurements. Would this be a conservative value to use as a material strength for design?
 
 ```{r q6-task}
 ## TODO: Compute the 0.01 quantile of the `Y` values; complete the code below
@@ -136,7 +132,9 @@ Y_mean <-
   summarize(Y_mean = mean(Y)) %>%
   pull(Y_mean)
 
-Y_lo <- NA_real_ # Complete the quantile calculation
+Y_lo <- 
+  
+  quantile(, .1) # Complete the quantile calculation
 
 # Compare the values
 Y_mean
@@ -154,12 +152,12 @@ print("Nice!")
 
 *Observations*
 
-- How does `Y_lo` compare with `Y_mean`?
-  - (Your response here)
-- Would the 10% quantile `Y_lo` be a conservative material strength for design?
-  - (Your response here)
+-   How does `Y_lo` compare with `Y_mean`?
+    -   (Your response here)
+-   Would the 10% quantile `Y_lo` be a conservative material strength for design?
+    -   (Your response here)
 
-### __q7__ The following code reduces the variability due to noise before computing the quantile. Run the code below, and answer the questions under *Observations* below.
+### **q7** The following code reduces the variability due to noise before computing the quantile. Run the code below, and answer the questions under *Observations* below.
 
 ```{r q7-task}
 ## NOTE: No need to edit; run and answer the questions below
@@ -177,19 +175,21 @@ Y_lo_improved
 
 *Observations*
 
-- Is the new value `Y_lo_improved` more or less conservative than the original `Y_lo`?
-  - (Your response here)
-- What features about the data collection / dataset `df_meas` enable the calculation of `Y_lo_improved`?
-  - (Your response here)
-- Measuring the strength of a part is a *destructive* experiment. Would it be possible to gather a dataset like `df_meas` in reality?
-  - (Your response here)
-- For what real properties (material, or otherwise) would it be possible to collect data like `df_meas`?
-  - (Your response here)
+-   Is the new value `Y_lo_improved` more or less conservative than the original `Y_lo`?
+    -   (Your response here)
+-   What features about the data collection / dataset `df_meas` enable the calculation of `Y_lo_improved`?
+    -   (Your response here)
+-   Measuring the strength of a part is a *destructive* experiment. Would it be possible to gather a dataset like `df_meas` in reality?
+    -   (Your response here)
+-   For what real properties (material, or otherwise) would it be possible to collect data like `df_meas`?
+    -   (Your response here)
 
 *Aside*: This kind of statistical experimental design is sometimes called a [nested design](https://online.stat.psu.edu/stat503/lesson/14/14.1).
 
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-model00-source-assignment.Rmd).
