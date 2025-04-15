@@ -148,32 +148,6 @@ for reporting in a table, but are not ideal for analysis.
 *Hint*: You can reshape in one `pivot` using the `".value"` special
 value for `names_to`.
 
-df_stang_long \<-
-
-df_stang %\>%
-
-pivot_longer(
-
-names_to = c(“var”, “angle”),
-
-names_sep = “\_”,
-
-values_to = “val”,
-
-starts_with(“E”) \| starts_with(“nu”)
-
-) %\>%
-
-mutate(angle = as.integer(angle)) %\>%
-
-pivot_wider(
-
-names_from = var,
-
-values_from = val
-
-)
-
 ``` r
 ## TASK: Tidy `df_stang`
 df_stang_long <-
@@ -184,12 +158,13 @@ df_stang_long <-
     values_to = "val",
     starts_with("E") | starts_with("nu")
   ) %>% 
-  mutate(angle = as.integer(angle))
+  mutate(angle = as.integer(angle)) %>%
+  filter(E >= 0, nu >= 0)
 
 df_stang_long
 ```
 
-    ## # A tibble: 27 × 5
+    ## # A tibble: 26 × 5
     ##    thick alloy   angle     E    nu
     ##    <dbl> <chr>   <int> <dbl> <dbl>
     ##  1 0.022 al_24st     0 10600 0.321
@@ -202,7 +177,7 @@ df_stang_long
     ##  8 0.032 al_24st    45 10400 0.318
     ##  9 0.032 al_24st    90 10300 0.322
     ## 10 0.032 al_24st     0 10300 0.319
-    ## # ℹ 17 more rows
+    ## # ℹ 16 more rows
 
 Use the following tests to check your work.
 
@@ -221,7 +196,7 @@ assertthat::assert_that(
 
 ``` r
 ## Dimensions
-assertthat::assert_that(all(dim(df_stang_long) == c(27, 5)))
+assertthat::assert_that(all(dim(df_stang_long) == c(26, 5)))
 ```
 
     ## [1] TRUE
@@ -286,6 +261,16 @@ summary(df_stang)
     ##  3rd Qu.: 0.3290   3rd Qu.:10500   3rd Qu.:0.3230                     
     ##  Max.   : 0.3310   Max.   :10700   Max.   :0.3300
 
+``` r
+df_stang_long %>%
+  distinct(alloy)
+```
+
+    ## # A tibble: 1 × 1
+    ##   alloy  
+    ##   <chr>  
+    ## 1 al_24st
+
 **Observations**:
 
 - Is there “one true value” for the material properties of Aluminum?
@@ -322,12 +307,14 @@ df_stang_long %>%
 
 - There is not a clear pattern here - I would say the data visualized in
   this way does not show a trend between sample thickness and modulus of
-  elasticity, E. All the points are around 10,000.
-- It is interesting to note the weird outlier with an E of 0 - this
-  should be explored further
+  elasticity, E. All the points are around 10,000, with a bit of
+  deviation - we need to define what is a reasonable variance for this
+  problem, but…
   - I also wonder why 0.081 thickness deviate a little more from the
-    line than the other three groups - is this a coincidence or is it
-    related to the outier, or is it something unrelated entirely?
+    line than the other three groups - is this a coincidence, or is it
+    something unrelated entirely? I think that 500 is a significant
+    difference, but this would need more contextual thinking to confirm?
+    Is this due to variance or different testing behaviors?
 
 ### **q4** Consider the following statement:
 
