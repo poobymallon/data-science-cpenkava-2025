@@ -24,7 +24,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -89,7 +89,7 @@ That's the high-level view; now let's dig into the details.
 ```{r q1-task}
 ## TASK: Load the census bureau data with the following tibble name.
 name = "./data/ACSDT5Y2018.B01003-Data.csv"
-df_pop <- read.csv(name)
+df_pop <- read_csv(name)
 df_pop
 ```
 
@@ -139,7 +139,7 @@ To get a sense of our task, let's take a glimpse at our two data sources.
 
 ```{r glimpse}
 ## NOTE: No need to change this; just execute
-df_pop 
+df_pop %>% glimpse
 df_covid %>% glimpse
 ```
 
@@ -349,14 +349,16 @@ Find the top 10 counties in terms of `cases_per100k`, and the top 10 in terms of
 ## TASK: Find the top 10 deaths_per100k counties; report populations as well
 
 top_cases <- df_normalized %>%
+  filter(date == "2020-03-10") %>% 
   arrange(desc(cases_per100k)) %>%  
   head(10) %>%  
-  select(county, population, cases_per100k)
+  select(date, county, population, cases_per100k)
 
 top_deaths <- df_normalized %>%
+  filter(date == "2020-03-10") %>% 
   arrange(desc(deaths_per100k)) %>%  
   head(10) %>% 
-  select(county, population, deaths_per100k)
+  select(date, county, population, deaths_per100k,)
 
 top_cases
 top_deaths
@@ -368,6 +370,12 @@ top_deaths
 -   And they all have slightly different values as well.
 -   When did these "largest values" occur?
     -   these largest values occurred when the population was very low, as I theorized above
+
+**For Resubmission**
+
+-   Actually, these happened when the date was 3-10-2020. This is because the data was cumulative, which means that the number could only grow with more time, i.e. the last value is very logically the largest one.
+
+    -   This is why I filtered by the last day.
 
 ## Self-directed EDA
 
