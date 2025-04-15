@@ -132,7 +132,10 @@ observations taken 2:00 PM 4/1/2025
   - (551-18)/551 = 96.73%
 - Are there any sources of *real* uncertainty in the percent occupied
   you calculated?
-  - no - this represents the whole population
+  - there definitely would be - the islanders move from place to place
+    and are born and die, so there could be Helvigers in other cities
+    and the number of unoccupied homes will fluctuate over time as
+    people move through their life cycle.
 - Are there any sources of *erroneous* uncertainty in the percent
   occupied you calculated?
   - yes - I could have counted wrong!
@@ -452,7 +455,7 @@ df_sample_random %>%
 
 - Did you find any highly prevalent names using `df_sample_random` that
   you *didn’t* find in q3 (using `df_sample_seq`)? Write them here.
-  - Yes I did! We did not see Collins, Blomgren, or Regan!
+  - Yes I did! We did not see Collins or Regan!
 - Is there any reason that people with the same last name might tend to
   *live near each other*?
   - Oh my gosh, I’m so glad you’ve asked. As stated before, humans tend

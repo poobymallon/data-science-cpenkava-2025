@@ -28,7 +28,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -78,7 +78,7 @@ observations taken 2:00 PM 4/1/2025
 -   What percent of homes are *occupied*?
     -   (551-18)/551 = 96.73%
 -   Are there any sources of *real* uncertainty in the percent occupied you calculated?
-    -   no - this represents the whole population
+    -   there definitely would be - the islanders move from place to place and are born and die, so there could be Helvigers in other cities and the number of unoccupied homes will fluctuate over time as people move through their life cycle.
 -   Are there any sources of *erroneous* uncertainty in the percent occupied you calculated?
     -   yes - I could have counted wrong!
 
@@ -257,7 +257,7 @@ df_sample_random %>%
 *Observations*
 
 -   Did you find any highly prevalent names using `df_sample_random` that you *didn't* find in q3 (using `df_sample_seq`)? Write them here.
-    -   Yes I did! We did not see Collins, Blomgren, or Regan!
+    -   Yes I did! We did not see Collins or Regan!
 -   Is there any reason that people with the same last name might tend to *live near each other*?
     -   Oh my gosh, I'm so glad you've asked. As stated before, humans tend to attempt to live next to the people they like and the people they visit most often for convenience reasons. This would lead to the case that many families (people typically with the same last name as each other) may try their best to live as close as possible to each other.
 
