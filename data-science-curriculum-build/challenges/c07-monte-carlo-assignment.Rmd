@@ -195,7 +195,8 @@ print("Your assertions passed, but make sure they're checking the right thing!")
 *Observations*
 
 -   You chose a correct value of `stat(x, y)` when `x, y` is *outside* the circle. Why did you choose this value?
-    -   I chose the outside bound - 1,1. It seemed like a pretty clear edge case to test for being outside of the circle
+    -   I chose the outside bound - 1,1 – to be the qualifier for incorrect values. It seemed like a pretty clear edge case to test for being outside of the circle
+        -   When it is the correct value (in the circle), I made it to be equal to 4 - thinking through this, we know that we have 1/4 of a circle, which means that the probability of it going into the circle is pi/4. By weighing the output of this correctness by 4, the average value will then approach 4\*pi/4 = pi!
 -   You chose a correct value of `stat(x, y)` when `x, y` is *inside* the circle. Why did you choose this value?
     -   I didn't want to choose 0,0 because I figured that wouldn't be a very meaningful point, so I chose a non-zero point most definitely in the circle, .25, .25
 
@@ -304,7 +305,7 @@ df_q6 <- df_q1 %>%
   summarize(
     pi_est = mean(stat_value),
     est_sd = sd(stat_value)       
-            ) %>%
+  ) %>%
   mutate(
     lo_pi = pi_est - qnorm(1 - (1 - 0.95)/2) * est_sd / sqrt(n),
     hi_pi = pi_est + qnorm(1 - (1 - 0.95)/2) * est_sd / sqrt(n)
@@ -333,7 +334,7 @@ hi_q6
     -   (Good enough as a rough estimate?) The width is pretty wide for being exact, but for the example of painting a circle, you could just go on the safe side
     -   (Good enough as a precise estimate?) but... for precise things, you would want a much more precise idea of the actual value (duh), so this range would be far too wide for something like a rocket in orbit
 -   What would be a *valid* way to make your CI more narrow?
-    -   you could boot strap more times (which gets computationally expensive quite fast) or increase your n value at the beginning (which involves collecting more data points), so both have their trade offs but would allow you to narrow your confidence interval
+    -   you could boot strap more times (which gets computationally expensive quite fast) or increase your n value at the beginning (which involves collecting more data points), but only one will make the CI more narrow. Ultimately, the CI captures the mean trend and can only be made narrower by increasing the sample size - the number of bootstraps will just shift the center of the CI. So the valid way here would be to increase the sample size n for each bootstrap.
 
 # References
 

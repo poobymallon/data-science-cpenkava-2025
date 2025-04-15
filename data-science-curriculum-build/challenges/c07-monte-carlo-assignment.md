@@ -196,6 +196,7 @@ square $x \in [0, 1]$ and $y \in [0, 1]$.
 
 ``` r
 ## TASK: Choose a sample size and generate samples
+set.seed(101)
 n <- 1000 # Choose a sample size
 df_q1 <- tibble(
   x = runif(n, min = 0, max = 1), # Generate the data
@@ -205,18 +206,18 @@ df_q1
 ```
 
     ## # A tibble: 1,000 × 2
-    ##        x      y
-    ##    <dbl>  <dbl>
-    ##  1 0.870 0.0804
-    ##  2 0.564 0.814 
-    ##  3 0.784 0.564 
-    ##  4 0.673 0.377 
-    ##  5 0.342 0.760 
-    ##  6 0.187 0.856 
-    ##  7 0.777 0.625 
-    ##  8 0.907 0.272 
-    ##  9 0.307 0.246 
-    ## 10 0.134 0.654 
+    ##         x     y
+    ##     <dbl> <dbl>
+    ##  1 0.372  0.102
+    ##  2 0.0438 0.602
+    ##  3 0.710  0.254
+    ##  4 0.658  0.542
+    ##  5 0.250  0.383
+    ##  6 0.300  0.992
+    ##  7 0.585  0.283
+    ##  8 0.333  0.858
+    ##  9 0.622  0.490
+    ## 10 0.546  0.476
     ## # ℹ 990 more rows
 
 Use the following to check that you’ve used the correct variable names.
@@ -315,8 +316,14 @@ print("Your assertions passed, but make sure they're checking the right thing!")
 
 - You chose a correct value of `stat(x, y)` when `x, y` is *outside* the
   circle. Why did you choose this value?
-  - I chose the outside bound - 1,1. It seemed like a pretty clear edge
-    case to test for being outside of the circle
+  - I chose the outside bound - 1,1 – to be the qualifier for incorrect
+    values. It seemed like a pretty clear edge case to test for being
+    outside of the circle
+    - When it is the correct value (in the circle), I made it to be
+      equal to 4 - thinking through this, we know that we have 1/4 of a
+      circle, which means that the probability of it going into the
+      circle is pi/4. By weighing the output of this correctness by 4,
+      the average value will then approach 4\*pi/4 = pi!
 - You chose a correct value of `stat(x, y)` when `x, y` is *inside* the
   circle. Why did you choose this value?
   - I didn’t want to choose 0,0 because I figured that wouldn’t be a
@@ -340,7 +347,7 @@ df_q3
     ## # A tibble: 1 × 1
     ##   pi_est
     ##    <dbl>
-    ## 1   3.16
+    ## 1    3.1
 
 Use the following to check that you’ve used the correct variable names.
 (NB. This does not check correctness.)
@@ -447,7 +454,7 @@ df_q5
     ## # A tibble: 1 × 2
     ##   pi_lo pi_up
     ##   <dbl> <dbl>
-    ## 1  3.06  3.26
+    ## 1     3  3.20
 
 ### **q6** CLT confidence interval
 
@@ -468,7 +475,7 @@ df_q6 <- df_q1 %>%
   summarize(
     pi_est = mean(stat_value),
     est_sd = sd(stat_value)       
-            ) %>%
+  ) %>%
   mutate(
     lo_pi = pi_est - qnorm(1 - (1 - 0.95)/2) * est_sd / sqrt(n),
     hi_pi = pi_est + qnorm(1 - (1 - 0.95)/2) * est_sd / sqrt(n)
@@ -487,19 +494,19 @@ df_q6
     ## # A tibble: 1 × 4
     ##   pi_est est_sd lo_pi hi_pi
     ##    <dbl>  <dbl> <dbl> <dbl>
-    ## 1   3.16   1.63  3.06  3.26
+    ## 1    3.1   1.67  3.00  3.20
 
 ``` r
 lo_q6
 ```
 
-    ## [1] 3.063147
+    ## [1] 2.996422
 
 ``` r
 hi_q6
 ```
 
-    ## [1] 3.264853
+    ## [1] 3.203578
 
 **Observations**:
 
@@ -524,8 +531,11 @@ hi_q6
 - What would be a *valid* way to make your CI more narrow?
   - you could boot strap more times (which gets computationally
     expensive quite fast) or increase your n value at the beginning
-    (which involves collecting more data points), so both have their
-    trade offs but would allow you to narrow your confidence interval
+    (which involves collecting more data points), but only one will make
+    the CI more narrow. Ultimately, the CI captures the mean trend and
+    can only be made narrower by increasing the sample size - the number
+    of bootstraps will just shift the center of the CI. So the valid way
+    here would be to increase the sample size n for each bootstrap.
 
 # References
 
