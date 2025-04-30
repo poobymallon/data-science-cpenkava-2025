@@ -116,13 +116,18 @@ df_data %>%
 
 ```{r q4-task}
 ## TODO: Devise your own way to test the hypothesis posed above.
-wrongs <- df_data %>%
-  mutate(match = tolower(subject_race) == tolower(raw_Race)) %>%
-  filter(!match) %>%
-  mutate(words = subject_race == "asian/pacific islander" & raw_Race == "Asian or Pacific Islander") %>% 
-  filter(!words) %>% 
-  select(subject_race, raw_Race)
-glimpse(wrongs)
+# wrongs <- df_data %>%
+#   mutate(match = tolower(subject_race) == tolower(raw_Race)) %>%
+#   filter(!match) %>%
+#   mutate(words = subject_race == "asian/pacific islander" & raw_Race == "Asian or Pacific Islander") %>% 
+#   filter(!words) %>% 
+#   select(subject_race, raw_Race)
+# glimpse(wrongs)
+
+df_data %>%
+  mutate(same = subject_race == str_to_lower(raw_Race)) %>% 
+  group_by(subject_race) %>%
+  count(same)
 ```
 
 **Observations**
@@ -134,7 +139,7 @@ Between the two hypotheses:
 
 which is most plausible, based on your results?
 
--   i'm guessing race Raw is an unprocessed version of subject race - it seems like raw_Race is just a more specific version - there's \~92000 mismatches, and they're basically all just when the raw is more specific with middle eastern and subject brings it to just asian and similar behaviors
+-   i'm guessing race Raw is an unprocessed version of subject race - it seems like raw_Race is just a more specific version - there's \~180000 mismatches, and they're basically all just when the raw is more specific with middle eastern and subject brings it to just asian and similar behaviors
 
 ## Vis
 
@@ -243,9 +248,9 @@ fit_q6 %>% tidy()
 **Observations**:
 
 -   Which `subject_race` levels are included in fitting the model?
-    -   the hispanic and white levels
+    -   the hispanic, black, and white levels
 -   Which `subject_race` levels have terms in the model?
-    -   the female level
+    -   just hispanic and white, as black is our default
 
 You should find that each factor in the model has a level *missing* in its set of terms. This is because R represents factors against a *reference level*: The model treats one factor level as "default", and each factor model term represents a change from that "default" behavior. For instance, the model above treats `subject_sex==male` as the reference level, so the `subject_sexfemale` term represents the *change in probability* of arrest due to a person being female (rather than male).
 

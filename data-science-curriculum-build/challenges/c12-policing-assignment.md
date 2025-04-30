@@ -287,19 +287,31 @@ hypothesis test.
 
 ``` r
 ## TODO: Devise your own way to test the hypothesis posed above.
-wrongs <- df_data %>%
-  mutate(match = tolower(subject_race) == tolower(raw_Race)) %>%
-  filter(!match) %>%
-  mutate(words = subject_race == "asian/pacific islander" & raw_Race == "Asian or Pacific Islander") %>% 
-  filter(!words) %>% 
-  select(subject_race, raw_Race)
-glimpse(wrongs)
+# wrongs <- df_data %>%
+#   mutate(match = tolower(subject_race) == tolower(raw_Race)) %>%
+#   filter(!match) %>%
+#   mutate(words = subject_race == "asian/pacific islander" & raw_Race == "Asian or Pacific Islander") %>% 
+#   filter(!words) %>% 
+#   select(subject_race, raw_Race)
+# glimpse(wrongs)
+
+df_data %>%
+  mutate(same = subject_race == str_to_lower(raw_Race)) %>% 
+  group_by(subject_race) %>%
+  count(same)
 ```
 
-    ## Rows: 92,575
-    ## Columns: 2
-    ## $ subject_race <fct> asian/pacific islander, other, asian/pacific islander, ot…
-    ## $ raw_Race     <chr> "Middle Eastern or East Indian (South Asian)", "American …
+    ## # A tibble: 7 × 3
+    ## # Groups:   subject_race [7]
+    ##   subject_race           same        n
+    ##   <fct>                  <lgl>   <int>
+    ## 1 asian/pacific islander FALSE  166842
+    ## 2 black                  TRUE   351610
+    ## 3 hispanic               TRUE   338317
+    ## 4 white                  TRUE  2529780
+    ## 5 other                  FALSE   11008
+    ## 6 unknown                FALSE   17017
+    ## 7 <NA>                   NA       1664
 
 **Observations**
 
@@ -311,7 +323,7 @@ Between the two hypotheses:
 which is most plausible, based on your results?
 
 - i’m guessing race Raw is an unprocessed version of subject race - it
-  seems like raw_Race is just a more specific version - there’s ~92000
+  seems like raw_Race is just a more specific version - there’s ~180000
   mismatches, and they’re basically all just when the raw is more
   specific with middle eastern and subject brings it to just asian and
   similar behaviors
@@ -457,9 +469,9 @@ fit_q6 %>% tidy()
 **Observations**:
 
 - Which `subject_race` levels are included in fitting the model?
-  - the hispanic and white levels
+  - the hispanic, black, and white levels
 - Which `subject_race` levels have terms in the model?
-  - the female level
+  - just hispanic and white, as black is our default
 
 You should find that each factor in the model has a level *missing* in
 its set of terms. This is because R represents factors against a
