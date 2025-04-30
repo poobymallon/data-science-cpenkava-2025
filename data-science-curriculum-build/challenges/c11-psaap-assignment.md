@@ -240,7 +240,15 @@ summary(df_psaap)
 
 **Observations**:
 
-- (Take notes here!)
+- there are 22 variables
+- they all take numerical values, and they operate on a range - none of
+  them take discrete values of just like 1 and 0, they operate on a
+  continuous spectrum that makes sense for the context of that
+  particular value.
+- there seems to be values that are inputs that are characteristic of
+  the system, outputs from the simulation, and then x, which is an
+  identification of where in the simulated system we’re talking about
+  and idx which is just the number simulation we’re talking about
 
 The important variables in this dataset are:
 
@@ -387,10 +395,14 @@ rsquare(fit_nonphysical, df_train)
   - from our handy-dandy table, avg_T is an output that represents
     “Plane-averaged fluid temperature”
     - given that norm_T is an output that represents “Normalized fluid
-      temperature rise,” these variables are quite similar in what they
-      are measuring and may be derived from some of the same
-      measurements, which is where the effectiveness in prediction may
-      come from
+      temperature rise,” these variables are almost identical in what
+      they are measuring and are derived from the same measurements,
+      which is where the effectiveness in prediction comes from. The
+      only difference between the two is that norm_T is avg_T normalized
+      to the fluid inlet temperature, T_f. We know this from the
+      equation above: norm_T = (avg_T - T_f)/T_f, so the two have a
+      direct mathematical relationship and thus are very, very good at
+      predicting each other.
 - Would we have access to `avg_T` if we were trying to predict a *new*
   value of `T_norm`? Is `avg_T` a valid predictor?
   - No we would not - both of them are an output derived from
@@ -447,25 +459,21 @@ fit_q4 %>% tidy()
 fit_x <- 
   df_train %>% 
   lm(formula = T_norm ~ x)
-rsquare(fit_x, df_train)
-```
 
-    ## [1] 0.3483764
-
-``` r
 fit_tf <- 
   df_train %>% 
   lm(formula = T_norm ~ T_f)
-rsquare(fit_tf, df_train)
-```
 
-    ## [1] 0.1133939
+# tidy(fit_x)
+# tidy(fit_tf)
+```
 
 **Observations**:
 
 - Which columns are excluded in the model formula above? What categories
   do these belong to? Why are these important quantities to leave out of
   the model?
+
   - We are excluding the idx, avg_q, avg_T, and rms_T columns from the
     linear model.
   - These are important to leave out because they are, respectively, the
@@ -477,14 +485,20 @@ rsquare(fit_tf, df_train)
     data from the simulation, which means that they already capture
     information that is also captured by T_norm, which make them sort of
     artificially good in describing T_norm without any real meaning.
+
 - Which inputs are *statistically significant*, according to the model?
+
   - based on the p-values (our statistically significant qualifier being
     p\<0.05), the inputs that are significant are x, L, W, U_0, C_fp,
     d_p, and l_0
+
 - What is the regression coefficient for `x`? What about the regression
   coefficient for `T_f`?
-  - 0.3484 for x
-  - 0.1134 for T_f
+
+  from the estimates column:
+
+  - 1.018 for x
+  - -3.791\*10^-4 for T_f
 
 ``` r
 df_psaap %>% 
@@ -505,8 +519,14 @@ df_psaap %>%
   - standard deviation of T_f in df_psaap is 38.942
 - How do these standard deviations relate to the regression coefficients
   for `x` and `T_f`?
-  - The standard deviation of x is lower, so it’s regression coefficient
-    is higher
+  - the standard deviation captures the variance, and the regression
+    coefficient is the beta value that is essentially the slope of the
+    linear model that captures the relationship between the variable and
+    its predicted output, so we can see how the model lets the variance
+    of the variables influence it by taking the product of the sd and
+    regression coefficient. to put it more clearly, they are related in
+    that the regression coefficent adapts to the standard deviation for
+    how the model wants that variance captured within it.
 - Note that literally *all* of the inputs above have *some* effect on
   the output `T_norm`; so they are all “significant” in that sense. What
   does this tell us about the limitations of statistical significance
