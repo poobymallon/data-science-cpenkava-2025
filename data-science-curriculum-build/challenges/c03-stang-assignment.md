@@ -271,6 +271,31 @@ df_stang_long %>%
     ##   <chr>  
     ## 1 al_24st
 
+``` r
+df_stang_long %>%
+  distinct(angle)
+```
+
+    ## # A tibble: 3 × 1
+    ##   angle
+    ##   <int>
+    ## 1     0
+    ## 2    45
+    ## 3    90
+
+``` r
+df_stang_long %>%
+  distinct(thick)
+```
+
+    ## # A tibble: 4 × 1
+    ##   thick
+    ##   <dbl>
+    ## 1 0.022
+    ## 2 0.032
+    ## 3 0.064
+    ## 4 0.081
+
 **Observations**:
 
 - Is there “one true value” for the material properties of Aluminum?
@@ -356,6 +381,25 @@ you went and made a better graph
     them is a major outlier and the thickest category is ever so
     slightly off. I would not trust my bridges, skyscrapers, heavy
     machinery, and aerospace craft on this evidence.
+
+**redoing q4:**
+
+- this graph without the outlier now appears as a linear relationship
+  between E and mu
+
+- also, looking at the thickness, we can somewhat observe an inverse
+  relationship between thickness and E/mu - the thinnest one has a lot
+  of points up in the high corners, and the thickest has all in the
+  lowest corner
+
+- because of this, I would tend to say now that it actually contradicts
+  the statement - there’s divided groupings of thicknesses with
+  differing properties.
+
+- I would shy away from saying that this data is conclusive - it’s
+  pretty limited, and the data wasn’t even collected in the same way.
+  further testing is definitely necessary, because each thickness only
+  has 6 data points.
 
 # References
 
